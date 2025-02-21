@@ -1,0 +1,12 @@
+.idea
+*.iml
+.nrepl-port
+figwheel_server.log
+resources/public/js
+target
+componentInfo
+pom.xml.asc
+.cpcache
+.shadow-cljs
+node_modules/
+app/
