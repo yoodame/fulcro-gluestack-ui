@@ -165,7 +165,7 @@
                (re-matches #".*/components/ui/[^/]+/index\.tsx$" (.getPath %))))))
 
 (def icon-factory-preamble
-  (str "(ns com.fulcrologic.gluestack-ui.components.lucide-icons\n"
+  (str "(ns com.fulcrologic.gluestack-ui.lucide-icons\n"
     "  (:require\n"
     "    #?(:cljs [\"lucide-react-native\" :as lucide])\n"
     "    [com.fulcrologic.fulcro.components :as comp]))\n\n"
@@ -218,7 +218,7 @@
 
   (generate-gluestack-ui parent-path ui-paths module-base-path)
 
-  (def icon-base-path "src/main/com/fulcrologic/gluestack_ui/components")
+  (def icon-base-path "src/main/com/fulcrologic/gluestack_ui")
   (def icon-entry-path "/Users/yawodame/development/fulcrologic/fulcro-gluestack-ui/app/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js")
   (generate-lucide-react-native-icons icon-base-path icon-entry-path)
 

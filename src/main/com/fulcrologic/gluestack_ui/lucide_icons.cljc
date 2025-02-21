@@ -1,4 +1,4 @@
-(ns com.fulcrologic.gluestack-ui.components.lucide-icons
+(ns com.fulcrologic.gluestack-ui.lucide-icons
   (:require
     #?(:cljs ["lucide-react-native" :as lucide])
     [com.fulcrologic.fulcro.components :as comp]))
