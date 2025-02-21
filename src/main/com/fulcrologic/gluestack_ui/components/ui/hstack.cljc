@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/hstack/index.js" :refer [HStack]])))
 
 (def ui-h-stack
-  "React native factory for HStack"
+  "HStackFactory"
   #?(:cljs (react-factory HStack)))

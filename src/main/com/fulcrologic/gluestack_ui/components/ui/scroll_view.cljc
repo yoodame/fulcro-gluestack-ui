@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/scroll-view/index.js" :refer [ScrollView]])))
 
 (def ui-scroll-view
-  "React native factory for ScrollView"
+  "ScrollViewFactory"
   #?(:cljs (react-factory ScrollView)))

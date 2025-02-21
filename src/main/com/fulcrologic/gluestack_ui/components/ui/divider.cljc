@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/divider/index.js" :refer [Divider]])))
 
 (def ui-divider
-  "React native factory for Divider"
+  "DividerFactory"
   #?(:cljs (react-factory Divider)))

@@ -4,21 +4,21 @@
     #?(:cljs ["@/components/ui/button/index.js" :refer [Button ButtonText ButtonSpinner ButtonIcon ButtonGroup]])))
 
 (def ui-button
-  "React native factory for Button"
+  "ButtonFactory"
   #?(:cljs (react-factory Button)))
 
 (def ui-button-text
-  "React native factory for ButtonText"
+  "ButtonTextFactory"
   #?(:cljs (react-factory ButtonText)))
 
 (def ui-button-spinner
-  "React native factory for ButtonSpinner"
+  "ButtonSpinnerFactory"
   #?(:cljs (react-factory ButtonSpinner)))
 
 (def ui-button-icon
-  "React native factory for ButtonIcon"
+  "ButtonIconFactory"
   #?(:cljs ButtonIcon))
 
 (def ui-button-group
-  "React native factory for ButtonGroup"
+  "ButtonGroupFactory"
   #?(:cljs (react-factory ButtonGroup)))

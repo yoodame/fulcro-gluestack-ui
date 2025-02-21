@@ -80,14 +80,11 @@
       patterns)))
 
 (defn input-factory-classes? [class-ref]
-  (let [patterns #{"InputField"
-                   "Checkbox"
-                   "Textarea"}]
+  (let [patterns #{"InputField" "Checkbox" "Textarea"}]
     (matches-pattern? patterns class-ref)))
 
 (defn fn-factory-class? [class-ref]
-  (let [patterns #{"SafeAreaView"
-                   "*Icon"}]
+  (let [patterns #{"*Icon"}]
     (matches-pattern? patterns class-ref)))
 
 
@@ -167,6 +164,22 @@
                (.isFile %)
                (re-matches #".*/components/ui/[^/]+/index\.tsx$" (.getPath %))))))
 
+(def icon-factory-preamble
+  (str "(ns com.fulcrologic.gluestack-ui.components.lucide-icons\n"
+    "  (:require\n"
+    "    #?(:cljs [\"lucide-react-native\" :as lucide])\n"
+    "    [com.fulcrologic.fulcro.components :as comp]))\n\n"
+    "(def icon #?(:cljs lucide :clj {}))\n\n"))
+
+(defn icon-factory-def-helper [class-ref factory-name]
+  (str "(def " factory-name " (comp/isoget icon \"" class-ref "\"))"))
+
+(defn icons->cljc-file [modules]
+  (*let [defs (mapv (fn [[class-ref factory-name]]
+                      (icon-factory-def-helper class-ref factory-name))
+                modules)]
+    (str icon-factory-preamble (str/join "\n" defs))))
+
 (defn generate-gluestack-ui [parent-path ui-paths module-base-path]
   (let [full-dirs (map #(vector % (str parent-path %)) ui-paths)
         js-files  (->> full-dirs
@@ -184,9 +197,19 @@
                               (map #(generate-module-map module-base-path ui-path %) ui-files))))]
     (doseq [{:keys [module-path] :as module} modules]
       (make-parents module-path)
-      (spit (as-file module-path) (module->cljc-file module)))
+      (spit (as-file module-path) (module->cljc-file module)))))
 
-    modules))
+(defn generate-lucide-react-native-icons [module-base-path entry-path]
+  (let [filename (str module-base-path "/lucide_icons.cljc")
+        modules (->> (slurp (file entry-path))
+                  (re-seq #"exports\.([A-Z][a-zA-Z0-9]*)Icon")
+                  (map last)
+                  (distinct)
+                  (filter some?)
+                  (sort)
+                  (mapv #(vector % (str "ui-" (hyphenated %) "-icon"))))]
+    (make-parents filename)
+    (spit (as-file filename) (icons->cljc-file modules))))
 
 (comment
   (def parent-path "/Users/yawodame/development/fulcrologic/fulcro-gluestack-ui/app")
@@ -194,5 +217,11 @@
   (def module-base-path "src/main/com/fulcrologic/gluestack_ui")
 
   (generate-gluestack-ui parent-path ui-paths module-base-path)
+
+  (def icon-base-path (str module-base-path "/components"))
+  (def icon-entry-path "/Users/yawodame/development/fulcrologic/fulcro-gluestack-ui/app/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js")
+  (generate-lucide-react-native-icons icon-base-path icon-entry-path)
+
+  modules
 
   nil)

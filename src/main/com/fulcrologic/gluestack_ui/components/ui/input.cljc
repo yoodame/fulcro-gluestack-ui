@@ -4,17 +4,17 @@
     #?(:cljs ["@/components/ui/input/index.js" :refer [Input InputField InputIcon InputSlot]])))
 
 (def ui-input
-  "React native factory for Input"
+  "InputFactory"
   #?(:cljs (react-factory Input)))
 
 (def ui-input-field
-  "React native factory for InputField"
+  "InputFieldFactory"
   #?(:cljs (wrap-text-input InputField)))
 
 (def ui-input-icon
-  "React native factory for InputIcon"
+  "InputIconFactory"
   #?(:cljs InputIcon))
 
 (def ui-input-slot
-  "React native factory for InputSlot"
+  "InputSlotFactory"
   #?(:cljs (react-factory InputSlot)))

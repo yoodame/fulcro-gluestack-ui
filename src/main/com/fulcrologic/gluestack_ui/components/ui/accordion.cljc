@@ -4,33 +4,33 @@
     #?(:cljs ["@/components/ui/accordion/index.js" :refer [Accordion AccordionItem AccordionHeader AccordionTrigger AccordionTitleText AccordionContentText AccordionIcon AccordionContent]])))
 
 (def ui-accordion
-  "React native factory for Accordion"
+  "AccordionFactory"
   #?(:cljs (react-factory Accordion)))
 
 (def ui-accordion-item
-  "React native factory for AccordionItem"
+  "AccordionItemFactory"
   #?(:cljs (react-factory AccordionItem)))
 
 (def ui-accordion-header
-  "React native factory for AccordionHeader"
+  "AccordionHeaderFactory"
   #?(:cljs (react-factory AccordionHeader)))
 
 (def ui-accordion-trigger
-  "React native factory for AccordionTrigger"
+  "AccordionTriggerFactory"
   #?(:cljs (react-factory AccordionTrigger)))
 
 (def ui-accordion-title-text
-  "React native factory for AccordionTitleText"
+  "AccordionTitleTextFactory"
   #?(:cljs (react-factory AccordionTitleText)))
 
 (def ui-accordion-content-text
-  "React native factory for AccordionContentText"
+  "AccordionContentTextFactory"
   #?(:cljs (react-factory AccordionContentText)))
 
 (def ui-accordion-icon
-  "React native factory for AccordionIcon"
+  "AccordionIconFactory"
   #?(:cljs AccordionIcon))
 
 (def ui-accordion-content
-  "React native factory for AccordionContent"
+  "AccordionContentFactory"
   #?(:cljs (react-factory AccordionContent)))

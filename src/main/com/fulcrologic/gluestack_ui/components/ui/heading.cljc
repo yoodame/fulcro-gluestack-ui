@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/heading/index.js" :refer [Heading]])))
 
 (def ui-heading
-  "React native factory for Heading"
+  "HeadingFactory"
   #?(:cljs (react-factory Heading)))

@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/pressable/index.js" :refer [Pressable]])))
 
 (def ui-pressable
-  "React native factory for Pressable"
+  "PressableFactory"
   #?(:cljs (react-factory Pressable)))

@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/center/index.js" :refer [Center]])))
 
 (def ui-center
-  "React native factory for Center"
+  "CenterFactory"
   #?(:cljs (react-factory Center)))

@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/text/index.js" :refer [Text]])))
 
 (def ui-text
-  "React native factory for Text"
+  "TextFactory"
   #?(:cljs (react-factory Text)))

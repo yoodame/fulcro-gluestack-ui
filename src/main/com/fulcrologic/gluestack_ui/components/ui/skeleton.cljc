@@ -4,9 +4,9 @@
     #?(:cljs ["@/components/ui/skeleton/index.js" :refer [Skeleton SkeletonText]])))
 
 (def ui-skeleton
-  "React native factory for Skeleton"
+  "SkeletonFactory"
   #?(:cljs (react-factory Skeleton)))
 
 (def ui-skeleton-text
-  "React native factory for SkeletonText"
+  "SkeletonTextFactory"
   #?(:cljs (react-factory SkeletonText)))

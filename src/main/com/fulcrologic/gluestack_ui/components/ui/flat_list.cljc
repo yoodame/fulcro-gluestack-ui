@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/flat-list/index.js" :refer [FlatList]])))
 
 (def ui-flat-list
-  "React native factory for FlatList"
+  "FlatListFactory"
   #?(:cljs (react-factory FlatList)))

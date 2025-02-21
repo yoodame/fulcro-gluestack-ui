@@ -4,53 +4,53 @@
     #?(:cljs ["@/components/ui/actionsheet/index.js" :refer [Actionsheet ActionsheetContent ActionsheetItem ActionsheetItemText ActionsheetDragIndicator ActionsheetDragIndicatorWrapper ActionsheetBackdrop ActionsheetScrollView ActionsheetVirtualizedList ActionsheetFlatList ActionsheetSectionList ActionsheetSectionHeaderText ActionsheetIcon]])))
 
 (def ui-actionsheet
-  "React native factory for Actionsheet"
+  "ActionsheetFactory"
   #?(:cljs (react-factory Actionsheet)))
 
 (def ui-actionsheet-content
-  "React native factory for ActionsheetContent"
+  "ActionsheetContentFactory"
   #?(:cljs (react-factory ActionsheetContent)))
 
 (def ui-actionsheet-item
-  "React native factory for ActionsheetItem"
+  "ActionsheetItemFactory"
   #?(:cljs (react-factory ActionsheetItem)))
 
 (def ui-actionsheet-item-text
-  "React native factory for ActionsheetItemText"
+  "ActionsheetItemTextFactory"
   #?(:cljs (react-factory ActionsheetItemText)))
 
 (def ui-actionsheet-drag-indicator
-  "React native factory for ActionsheetDragIndicator"
+  "ActionsheetDragIndicatorFactory"
   #?(:cljs (react-factory ActionsheetDragIndicator)))
 
 (def ui-actionsheet-drag-indicator-wrapper
-  "React native factory for ActionsheetDragIndicatorWrapper"
+  "ActionsheetDragIndicatorWrapperFactory"
   #?(:cljs (react-factory ActionsheetDragIndicatorWrapper)))
 
 (def ui-actionsheet-backdrop
-  "React native factory for ActionsheetBackdrop"
+  "ActionsheetBackdropFactory"
   #?(:cljs (react-factory ActionsheetBackdrop)))
 
 (def ui-actionsheet-scroll-view
-  "React native factory for ActionsheetScrollView"
+  "ActionsheetScrollViewFactory"
   #?(:cljs (react-factory ActionsheetScrollView)))
 
 (def ui-actionsheet-virtualized-list
-  "React native factory for ActionsheetVirtualizedList"
+  "ActionsheetVirtualizedListFactory"
   #?(:cljs (react-factory ActionsheetVirtualizedList)))
 
 (def ui-actionsheet-flat-list
-  "React native factory for ActionsheetFlatList"
+  "ActionsheetFlatListFactory"
   #?(:cljs (react-factory ActionsheetFlatList)))
 
 (def ui-actionsheet-section-list
-  "React native factory for ActionsheetSectionList"
+  "ActionsheetSectionListFactory"
   #?(:cljs (react-factory ActionsheetSectionList)))
 
 (def ui-actionsheet-section-header-text
-  "React native factory for ActionsheetSectionHeaderText"
+  "ActionsheetSectionHeaderTextFactory"
   #?(:cljs (react-factory ActionsheetSectionHeaderText)))
 
 (def ui-actionsheet-icon
-  "React native factory for ActionsheetIcon"
+  "ActionsheetIconFactory"
   #?(:cljs ActionsheetIcon))

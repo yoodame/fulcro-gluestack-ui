@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/card/index.js" :refer [Card]])))
 
 (def ui-card
-  "React native factory for Card"
+  "CardFactory"
   #?(:cljs (react-factory Card)))
