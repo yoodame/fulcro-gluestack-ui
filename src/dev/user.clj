@@ -207,7 +207,7 @@
                   (distinct)
                   (filter some?)
                   (sort)
-                  (mapv #(vector % (str "ui-" (hyphenated %) "-icon"))))]
+                  (mapv #(vector % (str (hyphenated %) "-icon"))))]
     (make-parents filename)
     (spit (as-file filename) (icons->cljc-file modules))))
 
@@ -218,7 +218,7 @@
 
   (generate-gluestack-ui parent-path ui-paths module-base-path)
 
-  (def icon-base-path (str module-base-path "/components"))
+  (def icon-base-path "src/main/com/fulcrologic/gluestack_ui/components")
   (def icon-entry-path "/Users/yawodame/development/fulcrologic/fulcro-gluestack-ui/app/node_modules/lucide-react-native/dist/cjs/lucide-react-native.js")
   (generate-lucide-react-native-icons icon-base-path icon-entry-path)
 
