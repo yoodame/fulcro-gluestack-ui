@@ -4,21 +4,21 @@
     #?(:cljs ["@/components/ui/avatar/index.js" :refer [Avatar AvatarBadge AvatarFallbackText AvatarImage AvatarGroup]])))
 
 (def ui-avatar
-  "AvatarFactory"
+  "Avatar Factory"
   #?(:cljs (react-factory Avatar)))
 
 (def ui-avatar-badge
-  "AvatarBadgeFactory"
+  "AvatarBadge Factory"
   #?(:cljs (react-factory AvatarBadge)))
 
 (def ui-avatar-fallback-text
-  "AvatarFallbackTextFactory"
+  "AvatarFallbackText Factory"
   #?(:cljs (react-factory AvatarFallbackText {:ui-text false})))
 
 (def ui-avatar-image
-  "AvatarImageFactory"
+  "AvatarImage Factory"
   #?(:cljs (react-factory AvatarImage)))
 
 (def ui-avatar-group
-  "AvatarGroupFactory"
+  "AvatarGroup Factory"
   #?(:cljs (react-factory AvatarGroup)))

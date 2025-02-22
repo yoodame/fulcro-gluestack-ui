@@ -1,56 +1,56 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.actionsheet
   (:require
-    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory ]]
+    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory]]
     #?(:cljs ["@/components/ui/actionsheet/index.js" :refer [Actionsheet ActionsheetContent ActionsheetItem ActionsheetItemText ActionsheetDragIndicator ActionsheetDragIndicatorWrapper ActionsheetBackdrop ActionsheetScrollView ActionsheetVirtualizedList ActionsheetFlatList ActionsheetSectionList ActionsheetSectionHeaderText ActionsheetIcon]])))
 
 (def ui-actionsheet
-  "ActionsheetFactory"
+  "Actionsheet Factory"
   #?(:cljs (react-factory Actionsheet)))
 
 (def ui-actionsheet-content
-  "ActionsheetContentFactory"
+  "ActionsheetContent Factory"
   #?(:cljs (react-factory ActionsheetContent)))
 
 (def ui-actionsheet-item
-  "ActionsheetItemFactory"
+  "ActionsheetItem Factory"
   #?(:cljs (react-factory ActionsheetItem)))
 
 (def ui-actionsheet-item-text
-  "ActionsheetItemTextFactory"
+  "ActionsheetItemText Factory"
   #?(:cljs (react-factory ActionsheetItemText)))
 
 (def ui-actionsheet-drag-indicator
-  "ActionsheetDragIndicatorFactory"
+  "ActionsheetDragIndicator Factory"
   #?(:cljs (react-factory ActionsheetDragIndicator)))
 
 (def ui-actionsheet-drag-indicator-wrapper
-  "ActionsheetDragIndicatorWrapperFactory"
+  "ActionsheetDragIndicatorWrapper Factory"
   #?(:cljs (react-factory ActionsheetDragIndicatorWrapper)))
 
 (def ui-actionsheet-backdrop
-  "ActionsheetBackdropFactory"
+  "ActionsheetBackdrop Factory"
   #?(:cljs (react-factory ActionsheetBackdrop)))
 
 (def ui-actionsheet-scroll-view
-  "ActionsheetScrollViewFactory"
+  "ActionsheetScrollView Factory"
   #?(:cljs (react-factory ActionsheetScrollView)))
 
 (def ui-actionsheet-virtualized-list
-  "ActionsheetVirtualizedListFactory"
+  "ActionsheetVirtualizedList Factory"
   #?(:cljs (react-factory ActionsheetVirtualizedList)))
 
 (def ui-actionsheet-flat-list
-  "ActionsheetFlatListFactory"
+  "ActionsheetFlatList Factory"
   #?(:cljs (react-factory ActionsheetFlatList)))
 
 (def ui-actionsheet-section-list
-  "ActionsheetSectionListFactory"
+  "ActionsheetSectionList Factory"
   #?(:cljs (react-factory ActionsheetSectionList)))
 
 (def ui-actionsheet-section-header-text
-  "ActionsheetSectionHeaderTextFactory"
+  "ActionsheetSectionHeaderText Factory"
   #?(:cljs (react-factory ActionsheetSectionHeaderText)))
 
 (def ui-actionsheet-icon
-  "ActionsheetIconFactory"
-  #?(:cljs ActionsheetIcon))
+  "ActionsheetIcon Factory"
+  #?(:cljs (react-factory ActionsheetIcon)))

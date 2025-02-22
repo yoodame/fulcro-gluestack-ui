@@ -42,16 +42,16 @@
 ;      (vec))))
 
 (defn extract-class-refs [file-path]
-  (let [content (slurp file-path)
-        exports (when-let [exports (mapv second (re-seq #"export\s*\{([^}]+)\}" content))]
-                  (mapcat (fn [export]
-                            (let [matches (re-seq #"(?:\w+\s+as\s+(\w+))|(\w+)" export)]
-                              (->> matches
-                                (mapv (fn [[_ m1 m2]] (flatten [m1 m2])))
-                                flatten
-                                (filter not-empty))))
-                    exports))
-         functions (map second (re-seq #"export function (\w+)\(" content))]
+  (let [content   (slurp file-path)
+        exports   (when-let [exports (mapv second (re-seq #"export\s*\{([^}]+)\}" content))]
+                    (mapcat (fn [export]
+                              (let [matches (re-seq #"(?:\w+\s+as\s+(\w+))|(\w+)" export)]
+                                (->> matches
+                                  (mapv (fn [[_ m1 m2]] (flatten [m1 m2])))
+                                  flatten
+                                  (filter not-empty))))
+                      exports))
+        functions (map second (re-seq #"export function (\w+)\(" content))]
     (->> (concat exports functions)
       (distinct)
       (vec))))
@@ -74,9 +74,10 @@
 (defn matches-pattern? [patterns s]
   (boolean
     (some (fn [pattern]
-            (if (.contains pattern "*")
-              (re-matches (re-pattern (str (str/replace pattern "*" "[A-Za-z]+") "$")) s)
-              (= pattern s)))
+            (re-matches (re-pattern pattern) s)
+            #_(if (.contains pattern "*")
+                (re-matches (re-pattern (str (str/replace pattern "*" "[A-Za-z]+") "$")) s)
+                (= pattern s)))
       patterns)))
 
 (defn input-factory-classes? [class-ref]
@@ -84,9 +85,9 @@
     (matches-pattern? patterns class-ref)))
 
 (defn fn-factory-class? [class-ref]
-  (let [patterns #{"*Icon"}]
+  (let [patterns #{"^(?!ButtonIcon|InputIcon|AccordionIcon|ActionsheetIcon|BadgeIcon)[A-Za-z0-9]+Icon$"
+                   "^[a-z][A-Za-z0-9]*$"}]
     (matches-pattern? patterns class-ref)))
-
 
 (defn factory-helper [class-ref]
   (cond
@@ -101,10 +102,7 @@
 
 (defn factory-def-helper [{:keys [factory-name factory-fn factory-fn-options class-ref docstring]}]
   (let [docstring-line (when docstring (str "  \"" docstring "\"\n"))
-        factory-parts (filterv not-empty [factory-fn class-ref factory-fn-options])
-        factory (->> [factory-fn class-ref factory-fn-options]
-                  (filter not-empty)
-                  (str/join " "))]
+        factory-parts  (filterv not-empty [factory-fn class-ref factory-fn-options])]
     (str "(def " factory-name "\n"
       docstring-line
       (if (= 1 (count factory-parts))
@@ -117,7 +115,7 @@
     :factory-fn (factory-helper class-ref)
     :factory-fn-options (factory-options-helper class-ref)
     :factory-name (str "ui-" (hyphenated class-ref))
-    :docstring (str class-ref "Factory")))
+    :docstring (str class-ref " Factory")))
 
 (defn generate-module-map [module-base-path ui-path ui-file]
   (let [js-path              (.getPath ui-file)
@@ -153,7 +151,7 @@
      :class-refs           class-refs
      :factories            factories}))
 
-(defn module->cljc-file [{:keys [ns-name module-dep factories] :as module}]
+(defn module->file-content [{:keys [ns-name module-dep factories] :as module}]
   (let [preamble (factory-preamble ns-name module-dep (distinct (mapv :factory-fn factories)))
         defs     (map factory-def-helper (:factories module))]
     (str preamble (str/join "\n" defs))))
@@ -174,7 +172,7 @@
 (defn icon-factory-def-helper [class-ref factory-name]
   (str "(def " factory-name " (comp/isoget icon \"" class-ref "\"))"))
 
-(defn icons->cljc-file [modules]
+(defn icons->file-content [modules]
   (*let [defs (mapv (fn [[class-ref factory-name]]
                       (icon-factory-def-helper class-ref factory-name))
                 modules)]
@@ -197,19 +195,21 @@
                               (map #(generate-module-map module-base-path ui-path %) ui-files))))]
     (doseq [{:keys [module-path] :as module} modules]
       (make-parents module-path)
-      (spit (as-file module-path) (module->cljc-file module)))))
+      (spit (as-file module-path) (module->file-content module)))))
 
 (defn generate-lucide-react-native-icons [module-base-path entry-path]
   (let [filename (str module-base-path "/lucide_icons.cljc")
-        modules (->> (slurp (file entry-path))
-                  (re-seq #"exports\.([A-Z][a-zA-Z0-9]*)Icon")
-                  (map last)
-                  (distinct)
-                  (filter some?)
-                  (sort)
-                  (mapv #(vector % (str (hyphenated %) "-icon"))))]
-    (make-parents filename)
-    (spit (as-file filename) (icons->cljc-file modules))))
+        icons  (->> (slurp (file entry-path))
+                 (re-seq #"exports\.([A-Z][a-zA-Z0-9]*)Icon")
+                 (map last)
+                 (distinct)
+                 (filter some?)
+                 (sort)
+                 (mapv #(vector % (str (hyphenated %) "-icon"))))]
+    (when (seq icons)
+      (make-parents filename)
+      (spit (as-file filename) (icons->file-content icons))
+      (println "Generated" filename))))
 
 (comment
   (def parent-path "/Users/yawodame/development/fulcrologic/fulcro-gluestack-ui/app")

@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/vstack/index.js" :refer [VStack]])))
 
 (def ui-v-stack
-  "VStackFactory"
+  "VStack Factory"
   #?(:cljs (react-factory VStack)))

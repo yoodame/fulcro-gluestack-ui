@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/box/index.js" :refer [Box]])))
 
 (def ui-box
-  "BoxFactory"
+  "Box Factory"
   #?(:cljs (react-factory Box)))

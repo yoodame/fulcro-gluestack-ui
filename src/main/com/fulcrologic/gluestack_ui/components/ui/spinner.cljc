@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/spinner/index.js" :refer [Spinner]])))
 
 (def ui-spinner
-  "SpinnerFactory"
+  "Spinner Factory"
   #?(:cljs (react-factory Spinner)))

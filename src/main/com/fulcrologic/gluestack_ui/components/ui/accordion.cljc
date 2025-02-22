@@ -1,36 +1,36 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.accordion
   (:require
-    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory ]]
+    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory]]
     #?(:cljs ["@/components/ui/accordion/index.js" :refer [Accordion AccordionItem AccordionHeader AccordionTrigger AccordionTitleText AccordionContentText AccordionIcon AccordionContent]])))
 
 (def ui-accordion
-  "AccordionFactory"
+  "Accordion Factory"
   #?(:cljs (react-factory Accordion)))
 
 (def ui-accordion-item
-  "AccordionItemFactory"
+  "AccordionItem Factory"
   #?(:cljs (react-factory AccordionItem)))
 
 (def ui-accordion-header
-  "AccordionHeaderFactory"
+  "AccordionHeader Factory"
   #?(:cljs (react-factory AccordionHeader)))
 
 (def ui-accordion-trigger
-  "AccordionTriggerFactory"
+  "AccordionTrigger Factory"
   #?(:cljs (react-factory AccordionTrigger)))
 
 (def ui-accordion-title-text
-  "AccordionTitleTextFactory"
+  "AccordionTitleText Factory"
   #?(:cljs (react-factory AccordionTitleText)))
 
 (def ui-accordion-content-text
-  "AccordionContentTextFactory"
+  "AccordionContentText Factory"
   #?(:cljs (react-factory AccordionContentText)))
 
 (def ui-accordion-icon
-  "AccordionIconFactory"
-  #?(:cljs AccordionIcon))
+  "AccordionIcon Factory"
+  #?(:cljs (react-factory AccordionIcon)))
 
 (def ui-accordion-content
-  "AccordionContentFactory"
+  "AccordionContent Factory"
   #?(:cljs (react-factory AccordionContent)))

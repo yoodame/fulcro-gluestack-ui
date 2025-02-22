@@ -4,229 +4,229 @@
     #?(:cljs ["@/components/ui/icon/index.js" :refer [Icon createIcon AddIcon AlertCircleIcon ArrowUpIcon ArrowDownIcon ArrowRightIcon ArrowLeftIcon AtSignIcon BellIcon CalendarDaysIcon CheckIcon CheckCircleIcon ChevronUpIcon ChevronDownIcon ChevronLeftIcon ChevronRightIcon ChevronsLeftIcon ChevronsRightIcon ChevronsUpDownIcon CircleIcon ClockIcon CloseIcon CloseCircleIcon CopyIcon DownloadIcon EditIcon EyeIcon EyeOffIcon FavouriteIcon GlobeIcon GripVerticalIcon HelpCircleIcon InfoIcon LinkIcon ExternalLinkIcon LoaderIcon LockIcon MailIcon MenuIcon MessageCircleIcon MoonIcon PaperclipIcon PhoneIcon PlayIcon RemoveIcon RepeatIcon Repeat1Icon SearchIcon SettingsIcon ShareIcon SlashIcon StarIcon SunIcon ThreeDotsIcon TrashIcon UnlockIcon]])))
 
 (def ui-icon
-  "IconFactory"
+  "Icon Factory"
   #?(:cljs (react-factory Icon)))
 
 (def ui-create-icon
-  "createIconFactory"
+  "createIcon Factory"
   #?(:cljs createIcon))
 
 (def ui-add-icon
-  "AddIconFactory"
+  "AddIcon Factory"
   #?(:cljs AddIcon))
 
 (def ui-alert-circle-icon
-  "AlertCircleIconFactory"
+  "AlertCircleIcon Factory"
   #?(:cljs AlertCircleIcon))
 
 (def ui-arrow-up-icon
-  "ArrowUpIconFactory"
+  "ArrowUpIcon Factory"
   #?(:cljs ArrowUpIcon))
 
 (def ui-arrow-down-icon
-  "ArrowDownIconFactory"
+  "ArrowDownIcon Factory"
   #?(:cljs ArrowDownIcon))
 
 (def ui-arrow-right-icon
-  "ArrowRightIconFactory"
+  "ArrowRightIcon Factory"
   #?(:cljs ArrowRightIcon))
 
 (def ui-arrow-left-icon
-  "ArrowLeftIconFactory"
+  "ArrowLeftIcon Factory"
   #?(:cljs ArrowLeftIcon))
 
 (def ui-at-sign-icon
-  "AtSignIconFactory"
+  "AtSignIcon Factory"
   #?(:cljs AtSignIcon))
 
 (def ui-bell-icon
-  "BellIconFactory"
+  "BellIcon Factory"
   #?(:cljs BellIcon))
 
 (def ui-calendar-days-icon
-  "CalendarDaysIconFactory"
+  "CalendarDaysIcon Factory"
   #?(:cljs CalendarDaysIcon))
 
 (def ui-check-icon
-  "CheckIconFactory"
+  "CheckIcon Factory"
   #?(:cljs CheckIcon))
 
 (def ui-check-circle-icon
-  "CheckCircleIconFactory"
+  "CheckCircleIcon Factory"
   #?(:cljs CheckCircleIcon))
 
 (def ui-chevron-up-icon
-  "ChevronUpIconFactory"
+  "ChevronUpIcon Factory"
   #?(:cljs ChevronUpIcon))
 
 (def ui-chevron-down-icon
-  "ChevronDownIconFactory"
+  "ChevronDownIcon Factory"
   #?(:cljs ChevronDownIcon))
 
 (def ui-chevron-left-icon
-  "ChevronLeftIconFactory"
+  "ChevronLeftIcon Factory"
   #?(:cljs ChevronLeftIcon))
 
 (def ui-chevron-right-icon
-  "ChevronRightIconFactory"
+  "ChevronRightIcon Factory"
   #?(:cljs ChevronRightIcon))
 
 (def ui-chevrons-left-icon
-  "ChevronsLeftIconFactory"
+  "ChevronsLeftIcon Factory"
   #?(:cljs ChevronsLeftIcon))
 
 (def ui-chevrons-right-icon
-  "ChevronsRightIconFactory"
+  "ChevronsRightIcon Factory"
   #?(:cljs ChevronsRightIcon))
 
 (def ui-chevrons-up-down-icon
-  "ChevronsUpDownIconFactory"
+  "ChevronsUpDownIcon Factory"
   #?(:cljs ChevronsUpDownIcon))
 
 (def ui-circle-icon
-  "CircleIconFactory"
+  "CircleIcon Factory"
   #?(:cljs CircleIcon))
 
 (def ui-clock-icon
-  "ClockIconFactory"
+  "ClockIcon Factory"
   #?(:cljs ClockIcon))
 
 (def ui-close-icon
-  "CloseIconFactory"
+  "CloseIcon Factory"
   #?(:cljs CloseIcon))
 
 (def ui-close-circle-icon
-  "CloseCircleIconFactory"
+  "CloseCircleIcon Factory"
   #?(:cljs CloseCircleIcon))
 
 (def ui-copy-icon
-  "CopyIconFactory"
+  "CopyIcon Factory"
   #?(:cljs CopyIcon))
 
 (def ui-download-icon
-  "DownloadIconFactory"
+  "DownloadIcon Factory"
   #?(:cljs DownloadIcon))
 
 (def ui-edit-icon
-  "EditIconFactory"
+  "EditIcon Factory"
   #?(:cljs EditIcon))
 
 (def ui-eye-icon
-  "EyeIconFactory"
+  "EyeIcon Factory"
   #?(:cljs EyeIcon))
 
 (def ui-eye-off-icon
-  "EyeOffIconFactory"
+  "EyeOffIcon Factory"
   #?(:cljs EyeOffIcon))
 
 (def ui-favourite-icon
-  "FavouriteIconFactory"
+  "FavouriteIcon Factory"
   #?(:cljs FavouriteIcon))
 
 (def ui-globe-icon
-  "GlobeIconFactory"
+  "GlobeIcon Factory"
   #?(:cljs GlobeIcon))
 
 (def ui-grip-vertical-icon
-  "GripVerticalIconFactory"
+  "GripVerticalIcon Factory"
   #?(:cljs GripVerticalIcon))
 
 (def ui-help-circle-icon
-  "HelpCircleIconFactory"
+  "HelpCircleIcon Factory"
   #?(:cljs HelpCircleIcon))
 
 (def ui-info-icon
-  "InfoIconFactory"
+  "InfoIcon Factory"
   #?(:cljs InfoIcon))
 
 (def ui-link-icon
-  "LinkIconFactory"
+  "LinkIcon Factory"
   #?(:cljs LinkIcon))
 
 (def ui-external-link-icon
-  "ExternalLinkIconFactory"
+  "ExternalLinkIcon Factory"
   #?(:cljs ExternalLinkIcon))
 
 (def ui-loader-icon
-  "LoaderIconFactory"
+  "LoaderIcon Factory"
   #?(:cljs LoaderIcon))
 
 (def ui-lock-icon
-  "LockIconFactory"
+  "LockIcon Factory"
   #?(:cljs LockIcon))
 
 (def ui-mail-icon
-  "MailIconFactory"
+  "MailIcon Factory"
   #?(:cljs MailIcon))
 
 (def ui-menu-icon
-  "MenuIconFactory"
+  "MenuIcon Factory"
   #?(:cljs MenuIcon))
 
 (def ui-message-circle-icon
-  "MessageCircleIconFactory"
+  "MessageCircleIcon Factory"
   #?(:cljs MessageCircleIcon))
 
 (def ui-moon-icon
-  "MoonIconFactory"
+  "MoonIcon Factory"
   #?(:cljs MoonIcon))
 
 (def ui-paperclip-icon
-  "PaperclipIconFactory"
+  "PaperclipIcon Factory"
   #?(:cljs PaperclipIcon))
 
 (def ui-phone-icon
-  "PhoneIconFactory"
+  "PhoneIcon Factory"
   #?(:cljs PhoneIcon))
 
 (def ui-play-icon
-  "PlayIconFactory"
+  "PlayIcon Factory"
   #?(:cljs PlayIcon))
 
 (def ui-remove-icon
-  "RemoveIconFactory"
+  "RemoveIcon Factory"
   #?(:cljs RemoveIcon))
 
 (def ui-repeat-icon
-  "RepeatIconFactory"
+  "RepeatIcon Factory"
   #?(:cljs RepeatIcon))
 
 (def ui-repeat1-icon
-  "Repeat1IconFactory"
-  #?(:cljs (react-factory Repeat1Icon)))
+  "Repeat1Icon Factory"
+  #?(:cljs Repeat1Icon))
 
 (def ui-search-icon
-  "SearchIconFactory"
+  "SearchIcon Factory"
   #?(:cljs SearchIcon))
 
 (def ui-settings-icon
-  "SettingsIconFactory"
+  "SettingsIcon Factory"
   #?(:cljs SettingsIcon))
 
 (def ui-share-icon
-  "ShareIconFactory"
+  "ShareIcon Factory"
   #?(:cljs ShareIcon))
 
 (def ui-slash-icon
-  "SlashIconFactory"
+  "SlashIcon Factory"
   #?(:cljs SlashIcon))
 
 (def ui-star-icon
-  "StarIconFactory"
+  "StarIcon Factory"
   #?(:cljs StarIcon))
 
 (def ui-sun-icon
-  "SunIconFactory"
+  "SunIcon Factory"
   #?(:cljs SunIcon))
 
 (def ui-three-dots-icon
-  "ThreeDotsIconFactory"
+  "ThreeDotsIcon Factory"
   #?(:cljs ThreeDotsIcon))
 
 (def ui-trash-icon
-  "TrashIconFactory"
+  "TrashIcon Factory"
   #?(:cljs TrashIcon))
 
 (def ui-unlock-icon
-  "UnlockIconFactory"
+  "UnlockIcon Factory"
   #?(:cljs UnlockIcon))

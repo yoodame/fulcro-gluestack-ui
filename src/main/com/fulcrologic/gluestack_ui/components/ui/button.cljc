@@ -1,24 +1,24 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.button
   (:require
-    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory ]]
+    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory]]
     #?(:cljs ["@/components/ui/button/index.js" :refer [Button ButtonText ButtonSpinner ButtonIcon ButtonGroup]])))
 
 (def ui-button
-  "ButtonFactory"
+  "Button Factory"
   #?(:cljs (react-factory Button)))
 
 (def ui-button-text
-  "ButtonTextFactory"
+  "ButtonText Factory"
   #?(:cljs (react-factory ButtonText)))
 
 (def ui-button-spinner
-  "ButtonSpinnerFactory"
+  "ButtonSpinner Factory"
   #?(:cljs (react-factory ButtonSpinner)))
 
 (def ui-button-icon
-  "ButtonIconFactory"
-  #?(:cljs ButtonIcon))
+  "ButtonIcon Factory"
+  #?(:cljs (react-factory ButtonIcon)))
 
 (def ui-button-group
-  "ButtonGroupFactory"
+  "ButtonGroup Factory"
   #?(:cljs (react-factory ButtonGroup)))

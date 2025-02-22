@@ -4,17 +4,17 @@
     #?(:cljs ["@/components/ui/menu/index.js" :refer [Menu MenuItem MenuItemLabel MenuSeparator]])))
 
 (def ui-menu
-  "MenuFactory"
+  "Menu Factory"
   #?(:cljs (react-factory Menu)))
 
 (def ui-menu-item
-  "MenuItemFactory"
+  "MenuItem Factory"
   #?(:cljs (react-factory MenuItem)))
 
 (def ui-menu-item-label
-  "MenuItemLabelFactory"
+  "MenuItemLabel Factory"
   #?(:cljs (react-factory MenuItemLabel)))
 
 (def ui-menu-separator
-  "MenuSeparatorFactory"
+  "MenuSeparator Factory"
   #?(:cljs (react-factory MenuSeparator)))

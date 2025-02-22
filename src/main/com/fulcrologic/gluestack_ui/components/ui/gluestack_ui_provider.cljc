@@ -4,5 +4,5 @@
     #?(:cljs ["@/components/ui/gluestack-ui-provider/index.js" :refer [GluestackUIProvider]])))
 
 (def ui-gluestack-u-i-provider
-  "GluestackUIProviderFactory"
+  "GluestackUIProvider Factory"
   #?(:cljs (react-factory GluestackUIProvider)))
