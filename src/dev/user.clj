@@ -81,11 +81,11 @@
       patterns)))
 
 (defn input-factory-classes? [class-ref]
-  (let [patterns #{"InputField" "Checkbox" "Textarea"}]
+  (let [patterns #{#_"InputFieldInput" #_"Checkbox" #_"TextareaInput"}]
     (matches-pattern? patterns class-ref)))
 
 (defn fn-factory-class? [class-ref]
-  (let [patterns #{"^(?!ButtonIcon|InputIcon|AccordionIcon|ActionsheetIcon|BadgeIcon)[A-Za-z0-9]+Icon$"
+  (let [patterns #{"^(?!ButtonIcon|InputIcon|AccordionIcon|ActionsheetIcon|BadgeIcon|FormControlErrorIcon)[A-Za-z0-9]+Icon$"
                    "^[a-z][A-Za-z0-9]*$"}]
     (matches-pattern? patterns class-ref)))
 

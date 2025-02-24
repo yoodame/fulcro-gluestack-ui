@@ -1,5 +1,5 @@
 {:paths   ["src/main" "src/dev"]
- :deps    {}
+ :deps    {com.fulcrologic/fulcro-rad {:mvn/version "1.6.10" :scope "provided"}}
  :aliases {:dev {:extra-deps {org.clojure/clojure           {:mvn/version "1.11.3" :scope "provided"}
                               org.clojure/clojurescript     {:mvn/version "1.11.132" :scope "provided"}
                               com.fulcrologic/fulcro        {:mvn/version "3.8.0-alpha3" :scope "provided"}

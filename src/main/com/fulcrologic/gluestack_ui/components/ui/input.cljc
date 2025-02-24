@@ -1,6 +1,6 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.input
   (:require
-    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory wrap-text-input]]
+    [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory]]
     #?(:cljs ["@/components/ui/input/index.js" :refer [Input InputField InputIcon InputSlot]])))
 
 (def ui-input
@@ -9,7 +9,7 @@
 
 (def ui-input-field
   "InputField Factory"
-  #?(:cljs (wrap-text-input InputField)))
+  #?(:cljs (react-factory InputField)))
 
 (def ui-input-icon
   "InputIcon Factory"
