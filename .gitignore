@@ -10,3 +10,6 @@ pom.xml.asc
 .shadow-cljs
 node_modules/
 app/
+.shadow-cljs
+.clj-kondo/.cache
+.clj-kondo
