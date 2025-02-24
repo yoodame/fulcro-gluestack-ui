@@ -32,7 +32,6 @@
                             (not (:className props)) (assoc :className "my-1 bg-background-0")
                             true (assoc :type "text"))
         input-field-props (select-keys props [:placeholder :onBlur :onChangeText :value])]
-    (log/debug "text-input--- input-input-field-props" (keys input-field-props))
     (ui-input input-props
       (ui-input-field input-field-props))))
 

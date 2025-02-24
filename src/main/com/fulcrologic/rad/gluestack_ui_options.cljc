@@ -1,4 +1,4 @@
-(ns com.fulcrologic.rad.rendering.gluestack-ui-options
+(ns com.fulcrologic.rad.gluestack-ui-options
   "Documented option keys for setting rendering-specific customization
   options when using Gluestack UI Plugin as your UI renderer.
 
@@ -30,6 +30,20 @@
   "Top-level key for specifying rendering options. All
    GUI customization options MUST appear under this key."
   ::rendering-options)
+
+(def action-button-render
+  "A `(fn [instance {:keys [key control disabled? loading?]}] dom-element)`.
+
+  * `key` - the key you used to add it to the controls list.
+  * `control` - the map of options you gave for the control.
+  * `disabled?`-  true if the calculation of your disabled? option is true.
+  * `loading?` - true if the component is loading data.
+
+  Overrides the rendering of action button controls.
+
+  You must return a DOM element to render for the control. If you return nil then
+  the default (button) will be rendered."
+  ::action-button-render)
 
 (def layout-class
   "The CSS class of the div that holds the top-level layout of the report or form.
