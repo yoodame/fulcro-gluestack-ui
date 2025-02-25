@@ -195,7 +195,8 @@
                               (map #(generate-module-map module-base-path ui-path %) ui-files))))]
     (doseq [{:keys [module-path] :as module} modules]
       (make-parents module-path)
-      (spit (as-file module-path) (module->file-content module)))))
+      (spit (as-file module-path) (module->file-content module))
+      (println "Generated" (:module-name module)))))
 
 (defn generate-lucide-react-native-icons [module-base-path entry-path]
   (let [filename (str module-base-path "/lucide_icons.cljc")
