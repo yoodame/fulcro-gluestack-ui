@@ -14,7 +14,7 @@
   (let [controls (control/component-controls instance)
         render   (guo/get-rendering-options instance guo/action-button-render)
         props    (comp/props instance)
-        {:keys [label icon class action disabled? visible? size variant variant-action]} control]
+        {:keys [label icon class action disabled? visible? size variant variant-action] :as control} (get controls control-key)]
     (when control
       (let [label     (?! label instance)
             class     (?! class instance)
