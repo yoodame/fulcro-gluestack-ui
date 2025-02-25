@@ -67,8 +67,9 @@
               (if (string? title)
                 (ui-heading {:size "md" :className "text-typography-900 font-semibold"} title)
                 title))
-            (ui-button-group {:space "sm" :flexDirection "row"}
-              (keep #(control/render-control master-form %) rest-actions))))))))
+            (when (seq rest-actions)
+              (ui-button-group {:space "sm" :flexDirection "row"}
+                (keep #(control/render-control master-form %) rest-actions)))))))))
 
 (defmethod fr/render-footer :default [renv attr])
 

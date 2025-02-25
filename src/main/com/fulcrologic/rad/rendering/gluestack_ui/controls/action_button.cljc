@@ -14,7 +14,7 @@
   (let [controls (control/component-controls instance)
         render   (guo/get-rendering-options instance guo/action-button-render)
         props    (comp/props instance)
-        {:keys [label icon class htmlStyle action disabled? visible?] :as control} (get controls control-key)]
+        {:keys [label icon class action disabled? visible? size variant variant-action]} control]
     (when control
       (let [label     (?! label instance)
             class     (?! class instance)
@@ -33,11 +33,13 @@
                                    :loading?  loading?}))
             (ui-button
               (cond-> {:key       (str control-key)
-                       :size      "sm"
                        :className class
+                       :size "sm"
                        :disabled  (boolean disabled?)
                        :onPress   onPress}
-                htmlStyle (assoc :style htmlStyle))
+                size (assoc :size size)
+                variant (assoc :variant variant)
+                variant-action (assoc :action variant-action))
               (when icon (ui-button-icon {:as icon :className ""}))
               (when label (ui-button-text {} label)))))))))
 
