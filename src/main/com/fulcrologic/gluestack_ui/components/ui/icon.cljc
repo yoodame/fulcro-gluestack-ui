@@ -1,7 +1,7 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.icon
   (:require
     [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory ]]
-    #?(:cljs ["@/components/ui/icon/index.js" :refer [Icon createIcon AddIcon AlertCircleIcon ArrowUpIcon ArrowDownIcon ArrowRightIcon ArrowLeftIcon AtSignIcon BellIcon CalendarDaysIcon CheckIcon CheckCircleIcon ChevronUpIcon ChevronDownIcon ChevronLeftIcon ChevronRightIcon ChevronsLeftIcon ChevronsRightIcon ChevronsUpDownIcon CircleIcon ClockIcon CloseIcon CloseCircleIcon CopyIcon DownloadIcon EditIcon EyeIcon EyeOffIcon FavouriteIcon GlobeIcon GripVerticalIcon HelpCircleIcon InfoIcon LinkIcon ExternalLinkIcon LoaderIcon LockIcon MailIcon MenuIcon MessageCircleIcon MoonIcon PaperclipIcon PhoneIcon PlayIcon RemoveIcon RepeatIcon Repeat1Icon SearchIcon SettingsIcon ShareIcon SlashIcon StarIcon SunIcon ThreeDotsIcon TrashIcon UnlockIcon]])))
+    #?(:cljs ["@/components/ui/icon/index.js" :refer [Icon createIcon AddIcon AlertCircleIcon ArrowUpIcon ArrowDownIcon ArrowRightIcon ArrowLeftIcon AtSignIcon BellIcon CalendarDaysIcon CheckIcon CheckCircleIcon ChevronUpIcon ChevronDownIcon ChevronLeftIcon ChevronRightIcon ChevronsLeftIcon ChevronsRightIcon ChevronsUpDownIcon CircleIcon ClockIcon CloseIcon CloseCircleIcon CopyIcon DownloadIcon EditIcon EyeIcon EyeOffIcon FavouriteIcon GlobeIcon GripVerticalIcon HelpCircleIcon InfoIcon LinkIcon ExternalLinkIcon LoaderIcon LockIcon MailIcon MenuIcon MessageCircleIcon MoonIcon PaperclipIcon PhoneIcon PlayIcon RemoveIcon RepeatIcon Repeat1Icon SearchIcon SettingsIcon ShareIcon SlashIcon StarIcon SunIcon ThreeDotsIcon TrashIcon UnlockIcon UIIcon]])))
 
 (def ui-icon
   "Icon Factory"
@@ -230,3 +230,7 @@
 (def ui-unlock-icon
   "UnlockIcon Factory"
   #?(:cljs UnlockIcon))
+
+(def ui-u-i-icon
+  "UIIcon Factory"
+  #?(:cljs UIIcon))

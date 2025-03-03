@@ -51,8 +51,9 @@
                                   flatten
                                   (filter not-empty))))
                       exports))
+        consts (map second (re-seq #"export\s+(?:const|let|var)\s+(\w+)" content))
         functions (map second (re-seq #"export function (\w+)\(" content))]
-    (->> (concat exports functions)
+    (->> (concat exports consts functions)
       (distinct)
       (vec))))
 
@@ -85,9 +86,19 @@
     (matches-pattern? patterns class-ref)))
 
 (defn fn-factory-class? [class-ref]
-  (let [patterns #{"^(?!ButtonIcon|InputIcon|AccordionIcon|ActionsheetIcon|BadgeIcon|FormControlErrorIcon)[A-Za-z0-9]+Icon$"
+  (let [ignore-classes #{"AccordionIcon" "ActionsheetIcon" "AlertIcon"
+                         "BadgeIcon" "ButtonIcon"
+                         "CheckboxIcon"
+                         "FabIcon" "FormControlErrorIcon"
+                         "InputIcon"
+                         "RadioIcon"
+                         "SelectIcon"}
+        patterns #{;"^(?!ButtonIcon|!InputIcon|AccordionIcon|ActionsheetIcon|BadgeIcon|FormControlErrorIcon)[A-Za-z0-9]+Icon$"
+                   "^[A-Za-z0-9]+Icon$"
+                   ;; Match classes that start with a lowercase.
                    "^[a-z][A-Za-z0-9]*$"}]
-    (matches-pattern? patterns class-ref)))
+    (if (not (contains? ignore-classes class-ref))
+      (matches-pattern? patterns class-ref))))
 
 (defn factory-helper [class-ref]
   (cond

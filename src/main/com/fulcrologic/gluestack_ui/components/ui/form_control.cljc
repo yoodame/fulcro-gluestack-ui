@@ -1,7 +1,7 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.form-control
   (:require
     [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory]]
-    #?(:cljs ["@/components/ui/form-control/index.js" :refer [FormControl FormControlError FormControlErrorText FormControlErrorIcon FormControlLabel FormControlLabelText FormControlLabelAstrick FormControlHelper FormControlHelperText]])))
+    #?(:cljs ["@/components/ui/form-control/index.js" :refer [FormControl FormControlError FormControlErrorText FormControlErrorIcon FormControlLabel FormControlLabelText FormControlLabelAstrick FormControlHelper FormControlHelperText UIFormControl]])))
 
 (def ui-form-control
   "FormControl Factory"
@@ -38,3 +38,7 @@
 (def ui-form-control-helper-text
   "FormControlHelperText Factory"
   #?(:cljs (react-factory FormControlHelperText)))
+
+(def ui-u-i-form-control
+  "UIFormControl Factory"
+  #?(:cljs (react-factory UIFormControl)))

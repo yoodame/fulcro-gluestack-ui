@@ -1,7 +1,7 @@
 (ns com.fulcrologic.gluestack-ui.components.ui.actionsheet
   (:require
     [com.fulcrologic.fulcro-native.alpha.components :refer [react-factory]]
-    #?(:cljs ["@/components/ui/actionsheet/index.js" :refer [Actionsheet ActionsheetContent ActionsheetItem ActionsheetItemText ActionsheetDragIndicator ActionsheetDragIndicatorWrapper ActionsheetBackdrop ActionsheetScrollView ActionsheetVirtualizedList ActionsheetFlatList ActionsheetSectionList ActionsheetSectionHeaderText ActionsheetIcon]])))
+    #?(:cljs ["@/components/ui/actionsheet/index.js" :refer [Actionsheet ActionsheetContent ActionsheetItem ActionsheetItemText ActionsheetDragIndicator ActionsheetDragIndicatorWrapper ActionsheetBackdrop ActionsheetScrollView ActionsheetVirtualizedList ActionsheetFlatList ActionsheetSectionList ActionsheetSectionHeaderText ActionsheetIcon UIActionsheet]])))
 
 (def ui-actionsheet
   "Actionsheet Factory"
@@ -54,3 +54,7 @@
 (def ui-actionsheet-icon
   "ActionsheetIcon Factory"
   #?(:cljs (react-factory ActionsheetIcon)))
+
+(def ui-u-i-actionsheet
+  "UIActionsheet Factory"
+  #?(:cljs (react-factory UIActionsheet)))
