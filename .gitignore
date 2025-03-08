@@ -13,3 +13,4 @@ app/
 .shadow-cljs
 .clj-kondo/.cache
 .clj-kondo
+.lsp/.cache/db.transit.json
