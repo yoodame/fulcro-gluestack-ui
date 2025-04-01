@@ -4,4 +4,280 @@
 
 = Fulcro 3 Gluestack UI Wrappers
 
-Fulcro 3 convenience wrappers for using https://gluestack.io/ui/docs/home/overview/quick-start[https://gluestack.io/docs/ui][Glustack UI] React Native components.
+Fulcro 3 convenience wrappers for using https://gluestack.io/ui/docs/home/overview/quick-start[Gluestack UI] React Native components and https://github.com/fulcrologic/fulcro-rad[Fulcro RAD] integration.
+
+== Installation
+
+Add the library to your `deps.edn`:
+
+[source,clojure]
+----
+{:deps {com.fulcrologic/fulcro-gluestack-ui {:mvn/version "1.0.0"}}}
+----
+
+== Fulcro RAD Integration
+
+This library provides Gluestack UI renderers for Fulcro RAD forms and reports. To use them, install the controls in your RAD application:
+
+[source,clojure]
+----
+(ns app.application
+  (:require
+    [com.fulcrologic.rad.application :as rad-app]
+    [com.fulcrologic.rad.rendering.gluestack-ui-controls :as gui-controls]))
+
+(defonce APP (-> (rad-app/fulcro-rad-app {})
+               ; Install the GlueStack UI controls
+               (rad-app/install-ui-controls! gui-controls/all-controls)))
+----
+
+== Available Field Renderers
+
+=== Text Fields
+
+The library provides renderers for text and string attributes, with support for both single-line and multi-line inputs:
+
+[source,clojure]
+----
+(defattr username :account/username :string
+  {fo/style :default})  ; Standard input field
+
+(defattr bio :account/bio :text
+  {fo/style :multi-line}) ; Textarea for longer content
+----
+
+=== Boolean Fields
+
+Boolean values are rendered as checkboxes:
+
+[source,clojure]
+----
+(defattr active :account/active :boolean
+  {::attr/required? true})
+----
+
+=== Integer/Long Fields
+
+Numeric fields can be displayed as either input fields or dropdown selectors:
+
+[source,clojure]
+----
+; Standard numeric input
+(defattr age :person/age :int
+  {fo/style :default})
+
+; Dropdown selector for predefined values
+(defattr rating :product/rating :int
+  {fo/style :picker
+   ::attr/enumerated-values [1 2 3 4 5]
+   ::attr/enumerated-labels {1 "Poor" 2 "Fair" 3 "Good" 4 "Very Good" 5 "Excellent"}})
+
+; Long values with dropdown picker
+(defattr population :city/population :long
+  {fo/style :picker
+   ::attr/enumerated-values [10000 50000 100000 500000 1000000]})
+----
+
+=== Decimal Fields
+
+Decimal fields support precise numeric values with support for both standard and currency formatting:
+
+[source,clojure]
+----
+; Standard decimal input
+(defattr price :product/price :decimal
+  {fo/style :default})
+
+; USD currency formatting
+(defattr total :order/total :decimal
+  {fo/style :usd})
+----
+
+The USD style provides automatic currency formatting:
+
+* Displays values with dollar sign and commas (e.g., $1,234.56)
+* Automatically formats on blur (leaving the field)
+* Shows raw decimal format when editing
+* Handles proper conversion between string representation and decimal values
+
+=== Date/Time Fields
+
+Date and time fields are rendered using React Native's mobile-friendly date and time pickers:
+
+[source,clojure]
+----
+; Standard date/time input (full date and time)
+(defattr created-at :invoice/created-at :instant
+  {fo/style :default})
+
+; Date-only input that sets time to noon
+(defattr due-date :invoice/due-date :instant
+  {fo/style :date-at-noon})
+
+; Date-only input that sets time to midnight (00:00)
+(defattr start-date :event/start-date :instant
+  {fo/style :midnight-on-date})
+
+; Date-only input that sets time to midnight of the next day
+; Useful for exclusive date ranges
+(defattr end-date :event/end-date :instant
+  {fo/style :midnight-next-date})
+
+; Time-only input without date component  
+(defattr meeting-time :meeting/time :instant
+  {fo/style :time-only})
+----
+
+The date/time inputs are optimized for mobile usage with a tap-to-select interface and a native date picker that appears when the input is focused.
+
+==== Date Range Example
+
+The midnight styles are particularly useful for date ranges:
+
+[source,clojure]
+----
+;; This gives a clean date range from midnight on start date
+;; to midnight on the day *after* end date (exclusive range)
+(defattr start-date :booking/start-date :instant
+  {fo/style :midnight-on-date
+   ::attr/required? true
+   fo/label "Check-in Date"})
+
+(defattr end-date :booking/end-date :instant
+  {fo/style :midnight-next-date
+   ::attr/required? true
+   fo/label "Check-out Date"})
+----
+
+=== Enumerated Fields
+
+Enum and keyword fields can be rendered with dropdown selectors:
+
+[source,clojure]
+----
+(defattr status :order/status :enum
+  {::attr/enumerated-values [:pending :processing :shipped :delivered]
+   ::attr/enumerated-labels {:pending "Pending"
+                            :processing "Processing"
+                            :shipped "Shipped"
+                            :delivered "Delivered"}})
+
+(defattr role :account/role :keyword
+  {::attr/enumerated-values [:admin :user :guest]
+   ::attr/enumerated-labels {:admin "Administrator"
+                            :user "Standard User"
+                            :guest "Guest User"}})
+----
+
+== Form Field Options
+
+Gluestack UI renderers support standard RAD form field options:
+
+[source,clojure]
+----
+(defattr username :account/username :string
+  {::attr/required? true               ; Field must have a value
+   fo/style :default                   ; Rendering style
+   fo/label "Username"                 ; Custom field label
+   fo/validation-message "Required"    ; Custom validation message
+   fo/input-props {:placeholder "Enter username"} ; Props passed to input component
+   
+   ; Additional validations
+   ::attr/validation-message (fn [env attribute value]
+                              (cond
+                                (not (string? value)) "Must be a string"
+                                (< (count value) 3) "Username too short"
+                                :else nil))})
+----
+
+== Complete Example
+
+Here's a complete example showing attribute definitions and a form that uses the Gluestack UI renderers:
+
+[source,clojure]
+----
+(ns app.model.account
+  (:require
+   [com.fulcrologic.rad.attributes :as attr :refer [defattr]]
+   [com.fulcrologic.rad.attributes-options :as ao]
+   [com.fulcrologic.rad.form-options :as fo]))
+
+;; Define attributes
+(defattr id :account/id :uuid
+  {::attr/identity? true
+   ::attr/required? true})
+
+(defattr name :account/name :string
+  {::attr/required? true
+   fo/style :default})
+
+(defattr email :account/email :string
+  {::attr/required? true})
+
+(defattr bio :account/bio :string
+  {fo/style :multi-line})
+
+(defattr active :account/active :boolean
+  {::attr/required? true})
+
+(defattr age :account/age :int
+  {::attr/required? true})
+
+(defattr role :account/role :keyword
+  {::attr/enumerated-values [:admin :user :guest]
+   ::attr/enumerated-labels {:admin "Administrator"
+                            :user "Regular User"
+                            :guest "Guest User"}})
+
+;; Define form
+(ns app.ui.account-form
+  (:require
+   [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
+   [com.fulcrologic.rad.form :as form]
+   [com.fulcrologic.rad.report :as report]
+   [app.model.account :as account]))
+
+(form/defsc-form AccountForm [this props]
+  {::form/id account/id
+   ::form/attributes [account/name account/email account/bio account/active account/age account/role]
+   ::form/layout [:grid
+                 [:grid
+                  [:row
+                   [:col {:xs 12 :sm 6} account/name]
+                   [:col {:xs 12 :sm 6} account/email]]
+                  [:row
+                   [:col {:xs 12} account/bio]]
+                  [:row
+                   [:col {:xs 12 :sm 4} account/active]
+                   [:col {:xs 12 :sm 4} account/age]
+                   [:col {:xs 12 :sm 4} account/role]]]]})
+----
+
+== Customizing Renderers
+
+You can customize the rendering of specific field types or attributes by providing custom render functions:
+
+[source,clojure]
+----
+(ns app.custom-renderers
+  (:require
+   [com.fulcrologic.rad.rendering.gluestack-ui-controls :as gui-controls]
+   [app.model.account :as account]
+   [com.fulcrologic.rad.attributes :as attr]
+   [com.fulcrologic.rad.form :as form]))
+
+;; Create a custom map of controls extending the default ones
+(def custom-controls
+  (assoc-in gui-controls/all-controls
+    [:com.fulcrologic.rad.form/type->style->control :string :custom-style]
+    my-custom-string-renderer))
+
+;; Or customize rendering for a specific attribute
+(defmethod form/render-field ::account/name
+  [env attribute]
+  (my-custom-field-renderer env attribute))
+----
+
+== Notes on React Native Support
+
+Gluestack UI is built for React Native, so these renderers are particularly well-suited for mobile applications using Fulcro and RAD. For web applications, consider using the companion `fulcro-rad-semantic-ui` library instead.
