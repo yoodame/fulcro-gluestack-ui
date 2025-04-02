@@ -13,6 +13,7 @@
     [com.fulcrologic.rad.rendering.gluestack-ui.instant-field :as instant-field]
     [com.fulcrologic.rad.rendering.gluestack-ui.decimal-field :as decimal-field]
     [com.fulcrologic.rad.rendering.gluestack-ui.currency-field :as currency-field]
+    [com.fulcrologic.rad.rendering.gluestack-ui.entity-picker :as entity-picker]
     [com.fulcrologic.rad.rendering.gluestack-ui.controls.instant-inputs :as instant-inputs]
     [com.fulcrologic.rad.rendering.gluestack-ui.controls.text-input :as text-input]))
 
@@ -37,30 +38,29 @@
               :multi-line text-field/render-multi-line}
     :boolean {:default boolean-field/render-field}
     :int     {:default int-field/render-field
-              :picker enumerated-field/render-field}
+              :picker  enumerated-field/render-field}
     :long    {:default int-field/render-field
-              :picker enumerated-field/render-field}
+              :picker  enumerated-field/render-field}
     :enum    {:default enumerated-field/render-field}
     :keyword {:default enumerated-field/render-field}
-    :instant {:default             instant-field/render-field
-              :date-at-noon        instant-field/render-date-at-noon-field
-              :midnight-on-date    instant-field/render-midnight-on-date-field
-              :midnight-next-date  instant-field/render-midnight-next-date-field
-              :time-only           instant-field/render-time-only-field}
+    :instant {:default            instant-field/render-field
+              :date-at-noon       instant-field/render-date-at-noon-field
+              :midnight-on-date   instant-field/render-midnight-on-date-field
+              :midnight-next-date instant-field/render-midnight-next-date-field
+              :time-only          instant-field/render-time-only-field}
     :decimal {:default decimal-field/render-field
-              :usd     currency-field/render-field}}
+              :usd     currency-field/render-field}
+    :ref     {:pick-one  entity-picker/to-one-picker
+              :pick-many entity-picker/to-many-picker}}
 
    :com.fulcrologic.rad.control/type->style->control
    {:button  {:default action-button/render-control
               :link    action-button/render-control
               :outline action-button/render-control}
     :instant {:default            instant-inputs/date-time-control
-              :date-at-noon      instant-inputs/date-at-noon-control
-              :midnight-on-date  instant-inputs/midnight-on-date-control
+              :date-at-noon       instant-inputs/date-at-noon-control
+              :midnight-on-date   instant-inputs/midnight-on-date-control
               :midnight-next-date instant-inputs/midnight-next-date-control
-              :time-only         instant-inputs/time-only-control}
-    :string  {:default text-input/render-control}}})
-
-;:com.fulcrologic.rad.form/type->style->control
-;{:ref {#_#_:pick-one  entity-picker/to-one-picker
-;       #_#_:pick-many entity-picker/to-many-picker}}})
+              :time-only          instant-inputs/time-only-control}
+    :string  {:default text-input/render-control
+              :search  text-input/render-control}}})

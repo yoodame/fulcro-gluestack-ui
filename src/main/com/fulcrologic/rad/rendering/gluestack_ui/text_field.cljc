@@ -29,7 +29,7 @@
 (defn- text-input [props]
   (let [input-props       (cond-> props
                             true (dissoc :placeholder :onBlur :onChangeText :value)
-                            (not (:className props)) (assoc :className "my-1 bg-background-0")
+                            (not (:className props)) (assoc :className "bg-background-0")
                             true (assoc :type "text"))
         input-field-props (select-keys props [:placeholder :onBlur :onChangeText :value])]
     (ui-input input-props
@@ -42,7 +42,7 @@
 (defn- textarea-input [{:keys [value onChange onBlur] :as props}]
   (let [textarea-props (cond-> props
                          true (dissoc :placeholder :onBlur :onChangeText :value)
-                         (not (:className props)) (assoc :className "my-1 bg-background-0"))
+                         (not (:className props)) (assoc :className "bg-background-0"))
         textarea-input-props (select-keys props [:placeholder :onBlur :onChangeText :value])]
     (ui-textarea textarea-props
       (ui-textarea-input textarea-input-props))))
