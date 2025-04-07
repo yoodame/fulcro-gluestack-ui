@@ -59,15 +59,15 @@
                         {:size "sm"}
                         user-props
                         {:isDisabled disabled?
-                         :className  "bg-background-50"})
+                         :className  "bg-background-50 border-background-100"})
               (when icon (ui-input-slot {:className "ml-2"}
                            (ui-input-icon {:as icon :size 16})))
               (ui-input-field {:value           value
                                :placeholder     (or placeholder (if search? "Search..." "Enter text..."))
                                :onChangeText    handle-change
                                :onBlur          handle-blur
-                               :onSubmitEditing handle-submit
-                               }))))))))
+                               :onSubmitEditing handle-submit}))))))))
+
 
 (def ui-text-control (comp/factory TextControl {:keyfn :control-key}))
 
