@@ -2,6 +2,7 @@
   "Entity picker components for reference fields in Fulcro RAD forms using GlueStack UI.
    Provides to-one and to-many relationship pickers with support for all RAD picker options."
   (:require
+    [com.fulcrologic.rad.rendering.gluestack-ui.utils :refer [transit->str str->transit]]
     [com.fulcrologic.fulcro.algorithms.form-state :as fs]
     [com.fulcrologic.fulcro.algorithms.normalized-state :as fns]
     [com.fulcrologic.fulcro.algorithms.tempid :as tempid]
@@ -11,7 +12,6 @@
     [com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]
     [com.fulcrologic.fulcro.react.hooks :as hooks]
     [com.fulcrologic.fulcro.ui-state-machines :as uism]
-    #?(:cljs [cognitect.transit :as transit])
     [com.fulcrologic.rad.attributes :as attr]
     [com.fulcrologic.rad.attributes-options :as ao]
     [com.fulcrologic.rad.form :as form]
@@ -36,27 +36,6 @@
     [com.fulcrologic.rad.rendering.gluestack-ui.modals :refer [ui-form-modal]]
     [taoensso.encore :as enc]
     [taoensso.timbre :as log]))
-
-;; Transit encoding/decoding functions
-#?(:cljs
-   (defn transit->str
-     "Encode a Clojure data structure into a JSON string."
-     [x]
-     (when x
-       (let [w (transit/writer :json)]
-         (transit/write w x)))))
-
-#?(:cljs
-   (defn str->transit
-     "Decode a JSON string into a Clojure data structure."
-     [s]
-     (when s
-       (try
-         (let [r (transit/reader :json)]
-           (transit/read r s))
-         (catch :default e
-           (log/error "Error reading Transit:" s e)
-           nil)))))
 
 (defn- integrate-with-parent-form! [{:keys [state app]} {:keys [parent-registry-key parent-ident parent-relation-attribute ident]}]
   (when (and parent-ident parent-relation-attribute parent-registry-key ident)
@@ -167,66 +146,62 @@
               (ui-form-control-label-text {}
                 (str field-label))))
 
-          (if read-only?
-            ;; Read-only display
-            (ui-text {} (or selected-text (tr "None")))
+          ;; Interactive picker
+          (if (not mutable?)
+            ;; Simple dropdown with no edit/create options
+            (ui-select {:onValueChange (fn [encoded-v]
+                                         (let [v (str->transit encoded-v)]
+                                           (onSelect v)))
+                        :isDisabled    read-only?}
+              (ui-select-trigger {:variant "outline" :size "md" :className "bg-background-0"}
+                (ui-select-input {:className   "flex-1"
+                                  :placeholder (tr "Select...")
+                                  :value       (or selected-text "")})
+                (ui-select-icon {:className "mr-3" :as chevron-down-icon}))
+              (ui-select-portal {:snapPoints [30]}
+                (ui-select-backdrop {})
+                (ui-select-content {}
+                  (ui-select-drag-indicator-wrapper {}
+                    (ui-select-drag-indicator {}))
+                  (map (fn [{:keys [value text]}]
+                         (ui-select-item {:key   (#?(:cljs transit->str :clj identity) value)
+                                          :value (#?(:cljs transit->str :clj identity) value)
+                                          :label text}))
+                    options))))
 
-            ;; Interactive picker
-            (if (not mutable?)
-              ;; Simple dropdown with no edit/create options
-              (ui-select {:onValueChange (fn [encoded-v]
-                                           (let [v (#?(:cljs str->transit :clj identity) encoded-v)]
-                                             (onSelect v)))
-                          :isDisabled    read-only?}
-                (ui-select-trigger {:variant "outline" :size "md" :className "bg-background-0"}
-                  (ui-select-input {:className   "flex-1"
-                                    :placeholder (tr "Select...")
-                                    :value       (or selected-text "")})
-                  (ui-select-icon {:className "mr-3" :as chevron-down-icon}))
-                (ui-select-portal {:snapPoints [30]}
-                  (ui-select-backdrop {})
-                  (ui-select-content {}
-                    (ui-select-drag-indicator-wrapper {}
-                      (ui-select-drag-indicator {}))
-                    (map (fn [{:keys [value text]}]
-                           (ui-select-item {:key   (#?(:cljs transit->str :clj identity) value)
-                                            :value (#?(:cljs transit->str :clj identity) value)
-                                            :label text}))
-                      options))))
+            ;; Dropdown with edit/create buttons
+            (ui-h-stack {:space "xs" :width "100%"}
+              (ui-box {:flex 1}
+                (ui-select {:onValueChange (fn [encoded-v]
+                                             (let [v (str->transit encoded-v)]
+                                               (onSelect v)))}
+                  :isDisabled read-only?
+                  (ui-select-trigger {}
+                    (ui-select-input {:placeholder (tr "Select...")}
+                      :value (or selected-text ""))
+                    (ui-select-icon {}))
+                  (ui-select-portal {}
+                    (ui-select-content {}
+                      (map (fn [{:keys [value text]}]
+                             (ui-select-item {:key (transit->str value)}
+                               :value (transit->str value)
+                               :label text))
+                        options)))))
 
-              ;; Dropdown with edit/create buttons
-              (ui-h-stack {:space "xs" :width "100%"}
-                (ui-box {:flex 1}
-                  (ui-select {:onValueChange (fn [encoded-v]
-                                               (let [v (#?(:cljs str->transit :clj identity) encoded-v)]
-                                                 (onSelect v)))}
-                    :isDisabled read-only?
-                    (ui-select-trigger {}
-                      (ui-select-input {:placeholder (tr "Select...")}
-                        :value (or selected-text ""))
-                      (ui-select-icon {}))
-                    (ui-select-portal {}
-                      (ui-select-content {}
-                        (map (fn [{:keys [value text]}]
-                               (ui-select-item {:key (#?(:cljs transit->str :clj identity) value)}
-                                 :value (#?(:cljs transit->str :clj identity) value)
-                                 :label text))
-                          options)))))
+              ;; Create button
+              (when can-create?
+                (ui-button {:size    "xs"
+                            :variant "outline"
+                            :onPress #(comp/transact! this [(toggle-modal {:open? true, :picker-id picker-id, :edit-id (tempid/tempid)})])}
+                  (ui-button-text {} "+")))
 
-                ;; Create button
-                (when can-create?
-                  (ui-button {:size    "xs"
-                              :variant "outline"
-                              :onPress #(comp/transact! this [(toggle-modal {:open? true, :picker-id picker-id, :edit-id (tempid/tempid)})])}
-                    (ui-button-text {} "+")))
-
-                ;; Edit button
-                (when can-edit?
-                  (ui-button {:size       "xs"
-                              :variant    "outline"
-                              :isDisabled (not (second value))
-                              :onPress    #(comp/transact! this [(toggle-modal {:open? true, :picker-id picker-id, :edit-id (some-> value second)})])}
-                    (ui-button-text {} "✎"))))))
+              ;; Edit button
+              (when can-edit?
+                (ui-button {:size       "xs"
+                            :variant    "outline"
+                            :isDisabled (not (second value))
+                            :onPress    #(comp/transact! this [(toggle-modal {:open? true, :picker-id picker-id, :edit-id (some-> value second)})])}
+                  (ui-button-text {} "✎")))))
 
           ;; Error message for fields with omitted labels
           (when (and invalid? omit-label?)
