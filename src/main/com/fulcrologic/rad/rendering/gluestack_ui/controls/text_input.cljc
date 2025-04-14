@@ -7,7 +7,10 @@
     [com.fulcrologic.rad.options-util :refer [?!]]
     [com.fulcrologic.gluestack-ui.components.ui.input :refer [ui-input ui-input-slot ui-input-icon ui-input-field]]
     [com.fulcrologic.gluestack-ui.components.ui.form-control :refer [ui-form-control ui-form-control-label
-                                                                     ui-form-control-label-text]]))
+                                                                     ui-form-control-label-text]]
+    [com.fulcrologic.gluestack-ui.components.ui.pressable :refer [ui-pressable]]
+    [com.fulcrologic.gluestack-ui.lucide-icons :refer [x-icon]]
+    [taoensso.timbre :as log]))
 
 (defn- internal-store-name [control-key]
   (keyword (str 'com.fulcrologic.rad.rendering.gluestack-ui.controls.text-input_ (namespace control-key))
@@ -16,38 +19,28 @@
 (defsc TextControl [this {:keys [instance control-key style] :as control-props}]
   {:shouldComponentUpdate (fn [_ _ _] true)}
   (let [controls (control/component-controls instance)
-        {:keys [label onChange placeholder icon onIconClick disabled? visible? user-props] :as control}
+        {:keys [label onChange placeholder icon disabled? visible? user-props] :as control}
         (get controls control-key)
         search?  (= style :search)]
     (when control
-      (let [label         (?! label instance)
-            disabled?     (?! disabled? instance)
-            placeholder   (?! placeholder instance)
-            visible?      (or (nil? visible?) (?! visible? instance))
-            value         (or (control/current-value instance control-key) "")
+      (let [label          (?! label instance)
+            disabled?      (?! disabled? instance)
+            placeholder    (?! placeholder instance)
+            visible?       (or (nil? visible?) (?! visible? instance))
+            value          (or (control/current-value instance control-key) "")
             {:keys [last-sent-value]} (control/current-value instance (internal-store-name control-key))
-
-            run-change!   (fn [new-value run-if-unchanged?]
-                            (let [actually-changed? (not= new-value last-sent-value)]
-                              (when (and onChange (or run-if-unchanged? actually-changed?))
-                                (control/set-parameter! instance control-key new-value)
-                                (control/set-parameter! instance
-                                  (internal-store-name control-key)
-                                  {:last-sent-value new-value})
-                                ;; Change the URL parameter
-                                (onChange instance new-value))))
-
-            handle-change (fn [text]
-                            (control/set-parameter! instance control-key text)
-                            ;; For search style, run onChange immediately
-                            (when search?
-                              (run-change! text true)))
-
-            handle-submit (fn [_]
-                            (run-change! value true))
-
-            handle-blur   (fn []
-                            (run-change! value false))]
+            handle-change! #(control/set-parameter! instance control-key %)
+            handle-run!    (fn [run-if-unchanged? _]
+                             (let [actually-changed? (not= value last-sent-value)]
+                               (when (and onChange (or run-if-unchanged? actually-changed?))
+                                 (control/set-parameter! instance control-key value)
+                                 (control/set-parameter! instance
+                                   (internal-store-name control-key)
+                                   {:last-sent-value value})
+                                 ;; Change the URL parameter
+                                 (onChange instance value))))
+            handle-clear   (fn []
+                             (handle-change! ""))]
 
         (when visible?
           (ui-form-control {:key (str control-key) :size "sm"}
@@ -60,13 +53,28 @@
                         user-props
                         {:isDisabled disabled?
                          :className  "bg-background-50 border-background-100"})
-              (when icon (ui-input-slot {:className "ml-2"}
-                           (ui-input-icon {:as icon :size 16})))
-              (ui-input-field {:value           value
-                               :placeholder     (or placeholder (if search? "Search..." "Enter text..."))
-                               :onChangeText    handle-change
-                               :onBlur          handle-blur
-                               :onSubmitEditing handle-submit}))))))))
+
+              ;; Left icon slot (search icon or custom icon)
+              (when icon
+                (ui-input-slot {:className "ml-2"}
+                  (ui-input-icon {:as icon :size 16})))
+
+              ;; Text input field
+              (ui-input-field {:placeholder  (or placeholder (if search? "Search..." "Enter text..."))
+                               :onChangeText handle-change!
+                               :inputMode    (if search? "search" "text")
+                               :onBlur       (partial handle-run! false)
+                               :onKeyPress   (fn [evt] (handle-run! true evt))})
+
+              ;; Clear button (X) - only shown for search style when there's content
+              (when (not= value "")
+                (ui-input-slot {:className "mr-2"}
+                  (ui-pressable {:onPress   handle-clear
+                                 :disabled  disabled?
+                                 :className "p-1"}
+                    (ui-input-icon {:as        x-icon
+                                    :size      16
+                                    :className "text-background-800"})))))))))))
 
 
 (def ui-text-control (comp/factory TextControl {:keyfn :control-key}))
