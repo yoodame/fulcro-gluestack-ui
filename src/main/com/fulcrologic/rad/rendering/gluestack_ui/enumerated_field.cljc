@@ -69,6 +69,7 @@
             placeholder        (tr "Select an option")
             selected-option    (first (filter #(= value (:value %)) options))
             selected-label     (when selected-option (:label selected-option))]
+
         (ui-box {:key (str qualified-key)}
           (ui-form-control
             {:size       "md"
@@ -106,9 +107,8 @@
                       (for [{:keys [label value]} options]
                         (ui-select-item {:key   (transit->str value)
                                          :value (transit->str value)
-                                         :label label})))
-                    (ui-safe-area-view {}))))))
-          (when (and invalid? validation-message)
+                                         :label (ui-box {} label)})))
+                    (ui-safe-area-view {})))))
             (ui-form-control-error {}
               (ui-form-control-error-text {} validation-message))))))))
 
