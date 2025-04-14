@@ -26,15 +26,17 @@
     [com.fulcrologic.gluestack-ui.components.ui.text :refer [ui-text]]
     [com.fulcrologic.gluestack-ui.components.ui.button :refer [ui-button ui-button-text ui-button-icon]]
     [com.fulcrologic.gluestack-ui.components.ui.select :refer [ui-select ui-select-trigger ui-select-input
-                                                               ui-select-portal ui-select-backdrop ui-select-icon ui-select-item
-                                                               ui-select-content ui-select-drag-indicator-wrapper ui-select-drag-indicator]]
+                                                               ui-select-portal ui-select-backdrop ui-select-icon
+                                                               ui-select-item ui-select-scroll-view
+                                                               ui-select-content ui-select-drag-indicator-wrapper
+                                                               ui-select-drag-indicator]]
     [com.fulcrologic.gluestack-ui.components.ui.form-control :refer [ui-form-control ui-form-control-label
                                                                      ui-form-control-label-text
                                                                      ui-form-control-error
                                                                      ui-form-control-error-text
                                                                      ui-form-control-helper-text]]
     [com.fulcrologic.rad.rendering.gluestack-ui.modals :refer [ui-form-modal]]
-    [taoensso.encore :as enc]
+    [com.fulcrologic.gluestack-ui.components.ui.safe-area-view :refer [ui-safe-area-view]]
     [taoensso.timbre :as log]))
 
 (defn- integrate-with-parent-form! [{:keys [state app]} {:keys [parent-registry-key parent-ident parent-relation-attribute ident]}]
@@ -163,11 +165,13 @@
                 (ui-select-content {}
                   (ui-select-drag-indicator-wrapper {}
                     (ui-select-drag-indicator {}))
-                  (map (fn [{:keys [value text]}]
-                         (ui-select-item {:key   (#?(:cljs transit->str :clj identity) value)
-                                          :value (#?(:cljs transit->str :clj identity) value)
-                                          :label text}))
-                    options))))
+                  (ui-select-scroll-view {}
+                    (map (fn [{:keys [value text]}]
+                           (ui-select-item {:key   (#?(:cljs transit->str :clj identity) value)
+                                            :value (#?(:cljs transit->str :clj identity) value)
+                                            :label text}))
+                      options))
+                  (ui-safe-area-view {}))))
 
             ;; Dropdown with edit/create buttons
             (ui-h-stack {:space "xs" :width "100%"}

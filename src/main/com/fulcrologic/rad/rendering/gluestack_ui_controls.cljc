@@ -5,6 +5,7 @@
   (:require
     [com.fulcrologic.rad.rendering.gluestack-ui.form :as gui-form]
     [com.fulcrologic.rad.rendering.gluestack-ui.controls.action-button :as action-button]
+    [com.fulcrologic.rad.rendering.gluestack-ui.controls.pickers :as picker-controls]
     [com.fulcrologic.rad.rendering.gluestack-ui.container :as gui-container]
     [com.fulcrologic.rad.rendering.gluestack-ui.text-field :as text-field]
     [com.fulcrologic.rad.rendering.gluestack-ui.boolean-field :as boolean-field]
@@ -62,5 +63,6 @@
               :midnight-on-date   instant-inputs/midnight-on-date-control
               :midnight-next-date instant-inputs/midnight-next-date-control
               :time-only          instant-inputs/time-only-control}
+    :picker  {:default picker-controls/render-control}
     :string  {:default text-input/render-control
               :search  text-input/render-control}}})

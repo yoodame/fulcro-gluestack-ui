@@ -25,6 +25,7 @@
                                                                ui-select-item
                                                                ui-select-drag-indicator-wrapper
                                                                ui-select-drag-indicator]]
+    [com.fulcrologic.gluestack-ui.components.ui.safe-area-view :refer [ui-safe-area-view]]
     [com.fulcrologic.gluestack-ui.components.ui.checkbox :refer [ui-checkbox
                                                                  ui-checkbox-indicator
                                                                  ui-checkbox-icon
@@ -83,9 +84,7 @@
             (ui-select
               {:selectedValue (transit->str value)
                :onValueChange (fn [encoded-v]
-                                (def encoded-v encoded-v)
-                                (let [v (str->transit encoded-v)]
-                                  (form/input-changed! env qualified-key v)))
+                                (form/input-changed! env qualified-key (str->transit encoded-v)))
                :isDisabled    read-only?}
 
               ;; The select trigger/button
@@ -105,10 +104,10 @@
                       (ui-select-drag-indicator {}))
                     (ui-select-scroll-view {}
                       (for [{:keys [label value]} options]
-                        (ui-select-item
-                          {:key   (transit->str value)
-                           :value (transit->str value)
-                           :label label}))))))))
+                        (ui-select-item {:key   (transit->str value)
+                                         :value (transit->str value)
+                                         :label label})))
+                    (ui-safe-area-view {}))))))
           (when (and invalid? validation-message)
             (ui-form-control-error {}
               (ui-form-control-error-text {} validation-message))))))))
