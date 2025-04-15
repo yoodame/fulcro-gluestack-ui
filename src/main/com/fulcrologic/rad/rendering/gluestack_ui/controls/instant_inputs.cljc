@@ -11,17 +11,17 @@
     [com.fulcrologic.gluestack-ui.components.ui.pressable :refer [ui-pressable]]
     [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
     [cljc.java-time.local-time :as lt]
-    [cljc.java-time.local-date-time :as ldt]
-    #?(:cljs ["react-native-date-picker" :default DatePicker])))
+    [cljc.java-time.local-date-time :as ldt]))
+    ;#?(:cljs ["react-native-date-picker" :default DatePicker])))
 
 ;; React Native component wrapper for DatePicker
-#?(:cljs
-   (def ui-date-picker (react-factory DatePicker)))
+;#?(:cljs
+;   (def ui-date-picker (react-factory DatePicker)))
 
 (defsc DateTimeInput [this {:keys [value onChangeText isDisabled mode ::default-local-time] :or {mode "datetime"} :as props}]
   {:initLocalState (fn [_] {:showing-picker? false})
    :shouldComponentUpdate (fn [_ _ _] true)}
-  (let [showing-picker? (comp/get-state this :showing-picker?)
+  #_(let [showing-picker? (comp/get-state this :showing-picker?)
         formatted-value (cond
                           (nil? value) ""
                           (= mode "time")
@@ -106,7 +106,7 @@
 ;; Date picker that sets the date as the day before, and time as midnight
 ;; Used for inclusive/exclusive date range end points
 (defn ui-ending-date-instant-input [_ props]
-  (let [value (:value props)
+  #_(let [value (:value props)
         adjusted-value (when value
                          (-> value
                              dt/inst->local-datetime
