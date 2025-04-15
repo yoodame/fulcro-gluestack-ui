@@ -2,16 +2,16 @@
   "GlueStack UI renderer for decimal fields in Fulcro RAD forms.
    Renders decimal values with proper formatting and validation."
   (:require
-   [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
-   [com.fulcrologic.fulcro.dom.events :as evt]
-   [com.fulcrologic.gluestack-ui.components.ui.input :refer [ui-input ui-input-field]]
-   [com.fulcrologic.rad.rendering.gluestack-ui.field :refer [render-field-factory]]
-   [com.fulcrologic.rad.type-support.decimal :as math]
-   [clojure.string :as str]))
+    [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
+    [com.fulcrologic.gluestack-ui.components.ui.input :refer [ui-input ui-input-field]]
+    [com.fulcrologic.rad.rendering.gluestack-ui.field :refer [render-field-factory]]
+    [com.fulcrologic.rad.attributes :as attr]
+    [com.fulcrologic.rad.type-support.decimal :as math]))
 
-(defsc DecimalInput [this {:keys [value onChangeText onBlur] :as props}]
+(defsc DecimalInput [this {:keys [env attribute field-context]}]
   {:shouldComponentUpdate (fn [_ _ _] true)}
-  (let [input-props (-> props
+  (let [{:keys [value onChangeText onBlur placeholder :as field-style-config]} (:field-style-config field-context)
+        input-props  (-> field-style-config
                        (dissoc :value :onChangeText :onBlur)
                        (assoc :keyboardType "numeric"))
 
@@ -35,18 +35,17 @@
                            (onChangeText numeric-value))))
 
         ;; On blur, format the number properly
-        on-blur-fn (fn [e]
-                     (when onBlur
-                       (onBlur e)))]
+        on-blur-fn   (fn [e]
+                       (when onBlur
+                         (onBlur e)))]
 
     (ui-input input-props
-      (ui-input-field {:value string-value
-                      :placeholder (or (:placeholder props) "Enter a number...")
-                      :onChangeText on-change-fn
-                      :onBlur on-blur-fn}))))
+      (ui-input-field {:value        string-value
+                       :placeholder  (or placeholder "Enter a number...")
+                       :onChangeText on-change-fn
+                       :onBlur       on-blur-fn}))))
 
-(def ui-decimal-input (comp/factory DecimalInput))
+(def ui-decimal-input (comp/factory DecimalInput {:keyfn (fn [{:keys [attribute]}]
+                                                           (::attr/qualified-key attribute))}))
 
-(def render-field
-  "Renders a decimal field that properly handles numeric input and formatting."
-  (render-field-factory ui-decimal-input))
+(def render-field (render-field-factory ui-decimal-input))

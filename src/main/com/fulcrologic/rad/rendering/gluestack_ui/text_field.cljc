@@ -26,12 +26,13 @@
 ;                (when onChange
 ;                  (onChange (evt/target-value evt))))))
 
-(defn- text-input [props]
-  (let [input-props       (cond-> props
+(defn- text-input [{:keys [env attribute field-context]}]
+  (let [{:keys [field-style-config]} field-context
+        input-props       (cond-> field-style-config
                             true (dissoc :placeholder :onBlur :onChangeText :value)
-                            (not (:className props)) (assoc :className "bg-background-0")
+                            (not (:className field-style-config)) (assoc :className "bg-background-0")
                             true (assoc :type "text"))
-        input-field-props (select-keys props [:placeholder :onBlur :onChangeText :value])]
+        input-field-props (select-keys field-style-config [:placeholder :onBlur :onChangeText :value])]
     (ui-input input-props
       (ui-input-field input-field-props))))
 
@@ -39,11 +40,12 @@
 ;(def render-password (render-field-factory password-input))
 ;(def render-viewable-password (render-field-factory (comp/factory ViewablePasswordField)))
 
-(defn- textarea-input [{:keys [value onChange onBlur] :as props}]
-  (let [textarea-props (cond-> props
+(defn- textarea-input [{:keys [env attribute field-context]}]
+  (let [{:keys [field-style-config]} field-context
+        textarea-props (cond-> field-style-config
                          true (dissoc :placeholder :onBlur :onChangeText :value)
-                         (not (:className props)) (assoc :className "bg-background-0"))
-        textarea-input-props (select-keys props [:placeholder :onBlur :onChangeText :value])]
+                         (not (:className field-style-config)) (assoc :className "bg-background-0"))
+        textarea-input-props (select-keys field-style-config [:placeholder :onBlur :onChangeText :value])]
     (ui-textarea textarea-props
       (ui-textarea-input textarea-input-props))))
 

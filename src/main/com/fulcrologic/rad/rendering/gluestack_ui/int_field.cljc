@@ -9,25 +9,26 @@
 (defn- int-input
   "Renders a numeric input field that converts string values to integers.
    Used internally by the render-field function."
-  [props]
-  (let [input-props (cond-> props
-                      true (dissoc :placeholder :onBlur :onChangeText :value)
-                      (not (:className props)) (assoc :className "my-1 bg-background-0"))
+  [{:keys [env attribute field-context]}]
+  (let [{:keys [onChangeText :as field-style-config]} (:field-style-config field-context)
+        input-props       (cond-> field-style-config
+                            true (dissoc :placeholder :onBlur :onChangeText :value)
+                            (not (:className field-style-config)) (assoc :className "my-1 bg-background-0"))
 
         ;; Convert string inputs to integers (or nil if invalid)
-        parse-int-fn (fn [s]
-                      (let [v (js/parseInt s 10)]
-                        (when-not (js/isNaN v) v)))
+        parse-int-fn      (fn [s]
+                            (let [v (js/parseInt s 10)]
+                              (when-not (js/isNaN v) v)))
 
         ;; Handle integer-specific input value changes
-        on-change-fn (fn [v]
-                       (when-let [on-change (:onChangeText props)]
-                         (on-change (parse-int-fn v))))
+        on-change-fn      (fn [v]
+                            (when onChangeText
+                              (onChangeText (parse-int-fn v))))
 
-        input-field-props (-> (select-keys props [:placeholder :onBlur :value])
-                              (assoc :type "number"
-                                     :keyboardType "numeric"
-                                     :onChangeText on-change-fn))]
+        input-field-props (-> (select-keys field-style-config [:placeholder :onBlur :value])
+                            (assoc :type "number"
+                                   :keyboardType "numeric"
+                                   :onChangeText on-change-fn))]
 
     (ui-input input-props
       (ui-input-field input-field-props))))
