@@ -44,11 +44,11 @@
               :picker  enumerated-field/render-field}
     :enum    {:default enumerated-field/render-field}
     :keyword {:default enumerated-field/render-field}
-    ;:instant {:default            instant-field/render-field
-    ;          :date-at-noon       instant-field/render-date-at-noon-field
-    ;          :midnight-on-date   instant-field/render-midnight-on-date-field
-    ;          :midnight-next-date instant-field/render-midnight-next-date-field
-    ;          :time-only          instant-field/render-time-only-field}
+    :instant {:default            instant-field/render-field
+              :date-at-noon       instant-field/render-date-at-noon-field
+              :midnight-on-date   instant-field/render-midnight-on-date-field
+              :midnight-next-date instant-field/render-midnight-next-date-field
+              :time-only          instant-field/render-time-only-field}
     :decimal {:default decimal-field/render-field
               :usd     currency-field/render-field}
     :ref     {:pick-one  entity-picker/to-one-picker
