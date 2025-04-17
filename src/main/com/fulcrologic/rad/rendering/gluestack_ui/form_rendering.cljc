@@ -17,6 +17,7 @@
     [com.fulcrologic.gluestack-ui.components.ui.vstack :refer [ui-v-stack]]
     [com.fulcrologic.gluestack-ui.components.ui.safe-area-view :refer [ui-safe-area-view]]
     [com.fulcrologic.rad.gluestack-ui-options :as guo]
+    [com.fulcrologic.rad.rendering.gluestack-ui.form :as gui-form]
     [com.fulcrologic.rad.rendering.gluestack-ui.form :as rgf]
     [com.fulcrologic.rad.rendering.gluestack-ui.text-field :as text-field]
     [taoensso.timbre :as log]))
@@ -89,3 +90,6 @@
 
 (defmethod fr/render-field [:string :multi-line] [{::form/keys [form-instance] :as renv} field-attr]
   (text-field/render-multi-line renv field-attr))
+
+(defmethod fr/render-field [:ref :default] [{::form/keys [form-instance] :as renv} field-attr]
+  (gui-form/standard-ref-container renv field-attr (comp/component-options form-instance)))

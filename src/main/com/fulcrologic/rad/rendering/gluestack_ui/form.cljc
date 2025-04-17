@@ -4,13 +4,17 @@
     [com.fulcrologic.rad.attributes :as attr]
     [com.fulcrologic.rad.form :as form]
     [com.fulcrologic.rad.form-options :as fo]
+    [com.fulcrologic.gluestack-ui.components.ui.box :refer [ui-box]]
     [com.fulcrologic.gluestack-ui.components.ui.text :refer [ui-text]]
+    [com.fulcrologic.gluestack-ui.components.ui.heading :refer [ui-heading]]
     ;[com.fulcrologic.rad.rendering.gluestack-ui.ui-controls.file :as file]
     ;[com.fulcrologic.rad.rendering.gluestack-ui.ui-controls.instant :as instant]
     ;[com.fulcrologic.rad.rendering.gluestack-ui.ui-controls.text :as text]
     ;[com.fulcrologic.rad.rendering.gluestack-ui.ui-controls.time :as time]
     ;[com.fulcrologic.rad.rendering.gluestack-ui.ui-controls.timezone :as timezone]
     ;[com.fulcrologic.rad.rendering.gluestack-ui.ui-controls.uuid :as uuid]
+    [com.fulcrologic.rad.rendering.gluestack-ui.form-options :as gufo]
+    [com.fulcrologic.rad.options-util :refer [?! narrow-keyword]]
     [taoensso.timbre :as log]))
 
 (defn render-attribute [env attr options]
@@ -26,8 +30,41 @@
 
 (def standard-form-container (comp/factory StandardFormContainer))
 
+;; =====================================================================================
+;; REF FORM RENDERING
+;; =====================================================================================
+
+(defn render-to-one [{::form/keys [master-form
+                                   form-instance] :as env} {k ::attr/qualified-key :as attr} options]
+  (let [{::form/keys [ui can-add? can-delete? title ref-container-class]} (fo/subform-options options attr)
+        form-props (comp/props form-instance)
+        props      (get form-props k)
+        top-class  (or (gufo/top-class form-instance attr) "")]
+    (let [ui-factory         (comp/computed-factory ui)
+          ChildForm          (if (comp/union-component? ui)
+                               (comp/union-child-for-props ui props)
+                               ui)
+          title              (?! (or title (some-> ChildForm (comp/component-options ::form/title)) "") form-instance form-props)
+          visible?           (form/field-visible? form-instance attr)
+          invalid?           (form/invalid-attribute-value? env attr)
+          validation-message (form/validation-error-message env attr)
+          std-props          {::form/nested?         true
+                              ::form/parent          form-instance
+                              ::form/parent-relation k
+                              ::form/can-delete?     (or
+                                                       (?! can-delete? form-instance form-props)
+                                                       false)}]
+      (when visible?
+        (ui-box {:key (str k)
+                 :className top-class
+                 :classes   [(?! ref-container-class env)]}
+          ;; title
+          (when title
+            (ui-heading {} title)))))))
+
 (defn standard-ref-container [env {::attr/keys [cardinality] :as attr} options]
   (log/debug "standard-ref-container" env attr options)
+  (render-to-one env attr options)
   #_(if (= :many cardinality)
       (render-to-many env attr options)
       (render-to-one env attr options)))
