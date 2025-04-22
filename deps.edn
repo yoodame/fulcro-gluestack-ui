@@ -1,9 +1,10 @@
-{:paths   ["src/main" "src/dev"]
+{:paths   ["src/main"]
  :deps    {com.fulcrologic/fulcro-rad {:mvn/version "1.6.10" :scope "provided"}}
- :aliases {:dev {:extra-deps {org.clojure/clojure           {:mvn/version "1.11.3" :scope "provided"}
-                              org.clojure/clojurescript     {:mvn/version "1.11.132" :scope "provided"}
-                              com.fulcrologic/fulcro        {:mvn/version "3.8.0-alpha3" :scope "provided"}
-                              com.fulcrologic/fulcro-native {:mvn/version "0.0.11" :scope "provided"}
-                              thheller/shadow-cljs          {:mvn/version "2.28.19"}
-                              com.github.awkay/workspaces   {:mvn/version "1.0.3"}
-                              org.clojars.abhinav/snitch    {:mvn/version "0.1.14"}}}}}
+ :aliases {:dev {:extra-paths ["src/dev"]
+                 :extra-deps  {org.clojure/clojure           {:mvn/version "1.11.3" :scope "provided"}
+                               org.clojure/clojurescript     {:mvn/version "1.11.132" :scope "provided"}
+                               com.fulcrologic/fulcro        {:mvn/version "3.8.0-alpha3" :scope "provided"}
+                               com.fulcrologic/fulcro-native {:mvn/version "0.0.11" :scope "provided"}
+                               thheller/shadow-cljs          {:mvn/version "2.28.19"}
+                               com.github.awkay/workspaces   {:mvn/version "1.0.3"}
+                               org.clojars.abhinav/snitch    {:mvn/version "0.1.14"}}}}}
