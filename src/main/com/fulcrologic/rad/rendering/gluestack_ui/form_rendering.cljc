@@ -15,6 +15,7 @@
     [com.fulcrologic.gluestack-ui.components.ui.heading :refer [ui-heading]]
     [com.fulcrologic.gluestack-ui.components.ui.text :refer [ui-text]]
     [com.fulcrologic.gluestack-ui.components.ui.vstack :refer [ui-v-stack]]
+    [com.fulcrologic.gluestack-ui.components.ui.scroll-view :refer [ui-scroll-view]]
     [com.fulcrologic.gluestack-ui.components.ui.safe-area-view :refer [ui-safe-area-view]]
     [com.fulcrologic.rad.gluestack-ui-options :as guo]
     [com.fulcrologic.rad.rendering.gluestack-ui.form :as gui-form]
@@ -24,11 +25,13 @@
 
 (defmethod fr/render-form :default [{::form/keys [form-instance parent parent-relation master-form] :as renv} id-attr]
   "Default form container."
-  (ui-box {:className "flex-1 bg-background-100" :keys (str (comp/get-ident form-instance))}
-    (fr/render-header renv id-attr)
-    (ui-v-stack {:space "lg" :className "p-4"}
-      (fr/render-fields renv id-attr))
-    (fr/render-footer renv id-attr)))
+  (let [nested? (not= master-form form-instance)]
+    (ui-box {:className [(when-not nested? "flex-1 bg-background-100")] :keys (str (comp/get-ident form-instance))}
+      (fr/render-header renv id-attr)
+      ((if nested? ui-box ui-scroll-view) {}
+        (ui-v-stack {:space "lg" :className [(when-not nested? "p-4")]}
+          (fr/render-fields renv id-attr))
+        (fr/render-footer renv id-attr)))))
 
 (defmethod fr/render-header :default [{::form/keys [master-form form-instance] :as env} attr]
   "Default form header."
