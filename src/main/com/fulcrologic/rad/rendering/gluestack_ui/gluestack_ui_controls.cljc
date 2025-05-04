@@ -1,4 +1,4 @@
-(ns com.fulcrologic.rad.rendering.gluestack-ui-controls
+(ns com.fulcrologic.rad.rendering.gluestack-ui.gluestack-ui-controls
   "Main namespace for Fulcro RAD GlueStack UI renderers.
    Use this namespace to install the RAD renderers in your application.
    See README.adoc for usage examples."
