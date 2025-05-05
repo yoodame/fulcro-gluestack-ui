@@ -21,12 +21,15 @@
 (def all-controls
   "Map of all GlueStack UI renderers for Fulcro RAD.
    Install with: (rad-app/install-ui-controls! app gui-controls/all-controls)"
-  {:com.fulcrologic.rad.form/element->style->layout
-   {:form-container {:default gui-form/standard-form-container}
-    ;:file-as-icon gui-form/file-icon-renderer}
-    ;:form-body-container {:default gui-form/standard-form-layout-renderer}
-    :ref-container  {:default gui-form/standard-ref-container}}
-   ;:file    gui-form/file-ref-container}}})
+  {;; Form-related UI
+   ;; completely configurable map...element types are malleable as are the styles. Plugins will need to doc where
+   ;; they vary from the "standard" set.
+   :com.fulcrologic.rad.form/element->style->layout
+   {:form-container      {:default      gui-form/standard-form-container
+                          :file-as-icon () #_gui-form/file-icon-renderer}
+    :form-body-container {:default gui-form/standard-form-layout-container}
+    :ref-container       {:default gui-form/standard-ref-container
+                          :file    gui-form/file-ref-container}}
 
    :com.fulcrologic.rad.container/style->layout
    {:default gui-container/render-container-layout}

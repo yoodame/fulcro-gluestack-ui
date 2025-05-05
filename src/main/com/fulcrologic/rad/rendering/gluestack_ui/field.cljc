@@ -54,6 +54,7 @@
 
           (field-factory {:env           env
                           :attribute     attribute
+                          :options       options
                           :field-context field-context})
 
           (when-not ref-field? (ui-form-control-error {}

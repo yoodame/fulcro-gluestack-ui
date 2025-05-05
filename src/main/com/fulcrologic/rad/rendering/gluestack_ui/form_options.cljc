@@ -3,6 +3,11 @@
     [com.fulcrologic.rad.attributes :as attr]
     [com.fulcrologic.fulcro.components :as comp]))
 
+(def add-position
+  "Used in a form's component-options. Specifies the position of the add button in the ref form.)
+   Defaults to `:top`. Can be a keyword :top or :bottom."
+  :com.fulcrologic.rad.rendering.gluestack-ui.form/add-position)
+
 (def ref-container-class
   "This option can be used in the fo/subforms entries to indicate what class(es) should be set on the element that wraps
   the list of elements. Defaults to `ui segments` for to-many and nothing for to-one relations. Can also be a
