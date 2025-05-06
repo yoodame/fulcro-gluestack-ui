@@ -109,6 +109,48 @@
 
 (def ui-document-picker (comp/computed-factory DocumentPickerButton))
 
+(defn picker-file->array-buffer!
+  "Fetch a file from `uri` and return an ArrayBuffer with metadata for Fulcro upload."
+  [^js picker-result]
+  #?(:cljs
+     (let [uri       (.-uri picker-result)
+           name      (or (.-fileName picker-result) "upload.dat")
+           type      (or (.-mimeType picker-result) "application/octet-stream")
+           now       (.now js/Date)]
+       (-> (js/fetch uri)
+         (.then (fn [res] (.arrayBuffer res)))
+         (.then (fn [ab]
+                  ;; Create a JS object mimicking File metadata + data
+                  (let [fake-file (js-obj
+                                    "name" name
+                                    "type" type
+                                    "lastModified" now
+                                    "size" (.-byteLength ab)
+                                    "arrayBuffer" (fn [] (js/Promise.resolve ab)))]
+                    fake-file)))))))
+
+(defn picker-file->js-file
+  "Given a file object from Expo DocumentPicker or ImagePicker, return a File-like blob object."
+  [^js picker-result]
+  #?(:cljs
+     (let [uri       (.-uri picker-result)
+           name      (or (.-fileName picker-result) "upload.dat")
+           type      (or (.-type picker-result) "application/octet-stream")
+           #_#_now       (or (aget picker-result "exif" "DateTime") (.now js/Date))]
+       (tap> picker-result)
+       (js/console.log "picker-file->js-file" picker-result)
+       (-> (js/fetch uri)
+         (.then (fn [res] (.blob res)))
+         (.then (fn [blob]
+                  (tap> ["blob clj .-size" (.-size blob)])
+                  (tap> ["blob clj name" (.-name blob)])
+                  (tap> ["blob clj .-type" (.-type blob)])
+                  (set! (.-name blob) name)
+                  (tap> ["blob clj .-name" (.-name blob)])
+                  ;(set! (.-type blob) type)
+                  ;(set! (.-lastModified blob) now)
+                  blob))))))
+
 (defsc StandardFileRef [this
                         {{::form/keys [form-instance master-form] :as env} :env
                          {k ::attr/qualified-key :as attr}                 :attribute
@@ -130,7 +172,6 @@
         top-class  (gufo/top-class form-instance attr)
         title      (?! (or title (some-> ui (comp/component-options ::form/title)) "") form-instance form-props)
         file-upload-handler (fn [files]
-                              (tap> files)
                               (let [new-id     (tempid/tempid)
                                     js-file    (-> files first)
                                     attributes (comp/component-options ui ::form/attributes)
@@ -142,9 +183,17 @@
                                     new-entity (fs/add-form-config ui
                                                  {id-key        new-id
                                                   qualified-key ""})]
+
                                 (merge/merge-component! form-instance ui new-entity :replace target)
-                                (blob/upload-file! form-instance sha-attr js-file {:file-ident [id-key new-id]})
-                                (comp/set-state! this {:input-key (str (rand-int 1000000))})))
+
+                                ;(tap> [id-key new-id])
+                                (-> (picker-file->js-file js-file)
+                                  (.then (fn [js-file]
+                                           ;(tap> ["js-file" js-file])
+                                           ;(tap> ["sha-attr" sha-attr])
+                                           (blob/upload-file! form-instance sha-attr js-file {:file-ident [id-key new-id]})
+                                           #_(blob/upload-file! form-instance sha-attr file {:file-ident [id-key new-id]})
+                                           (comp/set-state! this {:input-key (str (rand-int 1000000))}))))))
         add        (when (or (nil? add?) add?)
                      (ui-v-stack {;; trick: changing the key on change clears the input, so a failed upload can be retried
                                   :key      (comp/get-state this :input-key)
